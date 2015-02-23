@@ -1,3 +1,7 @@
+uek_movie:
+    resource: "@UekMovieBundle/Resources/config/routing.yml"
+    prefix:   /movie
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

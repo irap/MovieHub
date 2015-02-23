@@ -19,6 +19,7 @@ class AppKernel extends Kernel
         	new FOS\UserBundle\FOSUserBundle(),
             new AppBundle\AppBundle(),
             new Uek\UserBundle\UekUserBundle(),
+            new Uek\MovieBundle\UekMovieBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
