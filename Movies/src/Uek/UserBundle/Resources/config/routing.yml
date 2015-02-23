@@ -1,0 +1,3 @@
+uek_profile_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: UekUserBundle:Default:index }

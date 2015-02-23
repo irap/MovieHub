@@ -1,0 +1,4 @@
+services:
+#    uek_profile.example:
+#        class: Uek\UserBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

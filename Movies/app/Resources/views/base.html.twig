@@ -1,0 +1,74 @@
+<!-- base.html.twig which defines the page core and the major blocks -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	{% block head %}
+ 		<meta charset="UTF-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+ 		
+	    {% block stylesheets %}
+	    	<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	    {% endblock %}
+    	
+    	<title>{% block title %}{% endblock %} - Movies Webpage</title>
+	    
+	{% endblock %}
+</head>
+<body class=body">
+
+{% block body %}
+<div class="container-fluid">
+   <div class="wrapper">
+    <div class="header">
+			{% block header %}
+    		<div class="row">
+  				<div class="col-md-10"><h1>Movies: come and borrow one!</h1></div>
+  				<div class="col-md-2">
+					<p class="text-left">
+	            		{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+	                		<strong>{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} </strong>|
+		                			<a href="{{ path('fos_user_security_logout') }}"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }} </a>
+		            	{% else %}
+		                	<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+	    	        	{% endif %}
+					</p>
+				</div>
+			</div>
+			{% endblock %}
+			
+{#         {% for type, messages in app.session.flashbag.all() %}#}
+{#             	{% for message in messages %}#}
+{#                 	<div class="flash-{{ type }}">#}
+{#                     	{{ message }}#}
+{#                 	</div>#}
+{#             	{% endfor %}#}
+{#         	{% endfor %}#}
+        
+    </div>
+    
+	<div class="content">
+	    <div>
+	    {% block content %}
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+	     {% endblock %}
+        </div>
+    </div>
+    <div class="footer">
+			{% block footer %}&copy; 2015 UEC Students. Created with Symfony2.{% endblock %}
+    </div>
+</div>
+</div>
+
+{% endblock %}
+</body>
+</html>
