@@ -21,27 +21,28 @@ class MovieController extends Controller
 		
 		// Second, add new ones
 		$demo_list = [
-			['Hot Tub Time Machine 2', 
-			 'Craig Robinson, Rob Corddry, Clark Duke, Chevy Chase, Collette Wolfe',
-			 'http://images.fandango.com//ImageRenderer/94/141/mdcwebsite/images/global/still_looking94x141.jpg/179847/images/masterrepository/fandango/179847/hot-tub-time-machine-2-r.jpg'],
-			
-			['McFarland', 
-			 'Kevin Costner, Maria Bello, Morgan Saylor, Martha Higareda, John Ortiz',
-			 'http://images.fandango.com//ImageRenderer/94/141/mdcwebsite/images/global/still_looking94x141.jpg/167669/images/masterrepository/fandango/167669/mcfarlandusa-ps-4.jpg'],
+			['These Final Hours',
+			 'A self-obsessed young man makes his way to the party-to-end-all-parties on the last day on Earth, but ends up saving the life of a little girl searching for her father. Their relationship ultimately leads him on the path to redemption.',
+			 'Sarah Snook, Jessica De Gouw, Nathan Phillips',
+			 'http://static.hd-trailers.net/images/these-final-hours-122456-poster-xlarge-resized.jpg',
+			 'http://www.imdb.com/video/imdb/vi1426370073/imdb/embed?autoplay=false&width=480'],
 
-			['The DUFF',
-		     'Mae Whitman, Robbie Amell, Bella Thorne, Skyler Samuels, Ken Jeong',
-			 'http://images.fandango.com//ImageRenderer/94/141/mdcwebsite/images/global/still_looking94x141.jpg/179547/images/masterrepository/fandango/179547/the-duff-poster.jpg'],
-				
+			['Unfinished Business',
+			 'A hard-working small business owner and his two associates travel to Europe to close the most important deal of their lives. But what began as a routine business trip goes off the rails in every way imaginable - and unimaginable - way, including unplanned stops at a massive sex fetish event and a global economic summit.',
+			 'Vince Vaughn, Dave Franco, Tom Wilkinson',
+			 'http://ia.media-imdb.com/images/M/MV5BNjg5NzU5ODE5OV5BMl5BanBnXkFtZTgwMjM1MjE2NDE@._V1_SY317_CR0,0,214,317_AL_.jpg',
+			 'http://www.imdb.com/video/imdb/vi1415687705/imdb/embed?autoplay=false&width=480'],
 		];
 		
 		$em = $this->getDoctrine()->getManager();
-		foreach ($demo_list as list($title, $actors, $coverArt)) {
+		foreach ($demo_list as list($title, $description, $actors, $coverArt, $video)) {
 			$movie = new Movie();
 			$movie->setTitle($title);
+			$movie->setDescription($description);
 			$movie->setActors($actors);
 			$movie->setCoverArt($coverArt);
-			
+			$movie->setVideo($video);
+				
 			$em->persist($movie);
 		}
 		$em->flush();
@@ -88,6 +89,17 @@ class MovieController extends Controller
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
     	return $this->render('UekMovieBundle:Movie:movie.html.twig', array('movie' => $movie));
+    }
+
+    /**
+     * @Route("/movie/watch/{id}")
+     */
+    public function watch_movieAction($id)
+    {
+    	$movie = $this->getDoctrine()
+    	->getRepository('UekMovieBundle:Movie')
+    	->findOneById($id);
+    	return $this->render('UekMovieBundle:Movie:watch.movie.html.twig', array('movie' => $movie));
     }
     
 }

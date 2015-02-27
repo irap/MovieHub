@@ -1,23 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} 
 
 {% block content %}
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-1">
-			<p><img src="{{ movie.getCoverArt() }}"></p>
+	<div class="media">
+		<div class="media-left">
+			<a href="/movies/movie/{{ movie.getId() }}"><img class="media-object"
+				src="{{ movie.getCoverArt() }}" alt=""></a>
 		</div>
-		<div class="col-lg-10">
-		<p><h2>{{ movie.getTitle() }}</h2></p>
-		<p><h3>Actors</h3> {{ movie.getActors() }}</p>
+		<div class="media-body">
+			<h4 class="media-heading">
+				<b>{{ movie.getTitle() }}</b>
+			</h4>
+			<p>
+				<b>Actors:</b> {{ movie.getActors() }}
+			</p>
+			<p>
+				<a href="/movies/movie/{{ movie.getId() }}"
+					class="btn btn-default btn-sm" role="button">Borrow</a>
+			</p>
+				<a href="/movies/movie/watch/{{ movie.getId() }}"
+					class="btn btn-default btn-sm" role="button">Watch</a>
+			</p>
 		</div>
 	</div>
-	
-	<div class="row">
-		<div class="col-lg-2"></div>
-		<div class="col-lg-1">
-			<p><a href="/movies/movie/{{ movie.getId() }}" class="btn btn-default btn-sm" role="button">Borrow</a></p>
-		</div>
-	</div>
+
 <div>
 {% endblock content %}
-        

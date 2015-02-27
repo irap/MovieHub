@@ -4,12 +4,13 @@ namespace Uek\MovieBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Uek\MovieBundle\Entity\Genre;
 
 /**
  * Uek\MovieBundle\Entity\Movie
  *
  * @ORM\Entity()
- * @ORM\Table(name="movies")* 
+ * @ORM\Table(name="movies")
  *
  * @ORM\HasLifecycleCallbacks
  */
@@ -25,19 +26,38 @@ class Movie {
 	 * @ORM\Column(type="string", nullable=false)
 	 */
 	protected $title;
-	
+
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $coverArt;
+	protected $description;
 	
 	/**
 	 * @ORM\Column(type="string")
 	 */
 	protected $actors;
-	public 
+	
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $coverArt;
 
-	function __construct() {
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $video;
+	
+	/**
+	 * @ORM\ManyToMany(targetEntity="Genre")
+	 * @ORM\JoinTable(name="movies_genres",
+	 *      joinColumns={@ORM\JoinColumn(name="movie_id", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="genre_id", referencedColumnName="id", unique=true)}
+	 *      )
+	 **/
+	private $genres;
+	
+	public function __construct() {
+		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
     /**
@@ -117,5 +137,85 @@ class Movie {
     public function getCoverArt()
     {
         return $this->coverArt;
+    }
+
+    /**
+     * Add genres
+     *
+     * @param \Uek\MovieBundle\Entity\Genre $genres
+     * @return Movie
+     */
+    public function addGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    {
+        $this->genres[] = $genres;
+
+        return $this;
+    }
+
+    /**
+     * Remove genres
+     *
+     * @param \Uek\MovieBundle\Entity\Genre $genres
+     */
+    public function removeGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    {
+        $this->genres->removeElement($genres);
+    }
+
+    /**
+     * Get genres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenres()
+    {
+        return $this->genres;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Movie
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+
+    /**
+     * Set video
+     *
+     * @param string $video
+     * @return Movie
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * Get video
+     *
+     * @return string 
+     */
+    public function getVideo()
+    {
+        return $this->video;
     }
 }
