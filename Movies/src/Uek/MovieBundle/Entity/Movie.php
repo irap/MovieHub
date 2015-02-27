@@ -29,7 +29,7 @@ class Movie {
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $coverImageRef;
+	protected $coverArt;
 	
 	/**
 	 * @ORM\Column(type="string")
@@ -97,25 +97,25 @@ class Movie {
     }
 
     /**
-     * Set coverImageRef
+     * Set coverArt
      *
      * @param string $coverImageRef
      * @return Movie
      */
-    public function setCoverImageRef($coverImageRef)
+    public function setCoverArt($coverArt)
     {
-        $this->coverImageRef = $coverImageRef;
+        $this->coverArt = $coverArt;
 
         return $this;
     }
 
     /**
-     * Get coverImageRef
+     * Get coverArt
      *
      * @return string 
      */
-    public function getCoverImageRef()
+    public function getCoverArt()
     {
-        return $this->coverImageRef;
+        return $this->coverArt;
     }
 }

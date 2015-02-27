@@ -1,3 +1,4 @@
-uek_movie_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: UekMovieBundle:Default:index }
+movies:
+    resource: "@UekMovieBundle/Controller/MovieController.php"
+    type:     annotation
+ 
