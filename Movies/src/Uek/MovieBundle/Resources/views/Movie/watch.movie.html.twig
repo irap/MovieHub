@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %} 
+
+{% block content %}
+<div class="container-fluid">
+		<!-- 16:9 aspect ratio -->
+		<p>
+		<div class="embed-responsive embed-responsive-16by9">
+		  <iframe class="embed-responsive-item" src="{{ movie.getVideo() }}" width="480" height="270" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="no" scrolling="no"></iframe>'],
+		</div>
+		</p>
+{% endblock content %}
+

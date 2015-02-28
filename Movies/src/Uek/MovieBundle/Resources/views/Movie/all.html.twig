@@ -1,12 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %} 
-	{{ parent() }}
-	<link rel="stylesheet"
-	href="{{ asset('bundles/uek/movie/css/check_list.css') }}" />
-{% endblock %} 
-
-
 {% block content %}
 <div class="container-fluid">
 	<div class="col-xs-8">
@@ -18,7 +11,7 @@
 			    </div>
 			    <div class="media-body">
       				<h4 class="media-heading">{{ movie.getTitle() }}</h4>
-      					{{ movie.getActors() }}
+						<p>Genre: {{ movie.getGenresAsString() }}</p> 
 		        		<p><a href="/movies/movie/{{ movie.getId() }}" class="btn btn-sm" role="button">More...</a></p>
       			</div>
   				</li>

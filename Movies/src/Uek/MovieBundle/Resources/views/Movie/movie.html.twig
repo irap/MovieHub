@@ -11,9 +11,9 @@
 			<h4 class="media-heading">
 				<b>{{ movie.getTitle() }}</b>
 			</h4>
-			<p>
-				<b>Actors:</b> {{ movie.getActors() }}
-			</p>
+			<p><b>Genres:</b> {{ movie.getGenresAsString() }}</p>
+			<p><b>Actors:</b> {{ movie.getActors() }}
+			
 			<p>
 				<a href="/movies/movie/{{ movie.getId() }}"
 					class="btn btn-default btn-sm" role="button">Borrow</a>

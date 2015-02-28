@@ -22,7 +22,7 @@ class Genre {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", nullable=false)
+	 * @ORM\Column(type="string", nullable=false, unique=true)
 	 */
 	protected $name;
 	

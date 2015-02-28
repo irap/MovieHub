@@ -60,6 +60,7 @@ class Movie {
 		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
+
     /**
      * Get id
      *
@@ -94,6 +95,29 @@ class Movie {
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     * @return Movie
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set actors
      *
      * @param string $actors
@@ -119,7 +143,7 @@ class Movie {
     /**
      * Set coverArt
      *
-     * @param string $coverImageRef
+     * @param string $coverArt
      * @return Movie
      */
     public function setCoverArt($coverArt)
@@ -137,6 +161,29 @@ class Movie {
     public function getCoverArt()
     {
         return $this->coverArt;
+    }
+
+    /**
+     * Set video
+     *
+     * @param string $video
+     * @return Movie
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+
+        return $this;
+    }
+
+    /**
+     * Get video
+     *
+     * @return string 
+     */
+    public function getVideo()
+    {
+        return $this->video;
     }
 
     /**
@@ -171,51 +218,20 @@ class Movie {
     {
         return $this->genres;
     }
-
+    
     /**
-     * Set description
+     * Get genres as string
      *
-     * @param string $description
-     * @return Movie
+     * @return string
      */
-    public function setDescription($description)
+    public function getGenresAsString()
     {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-
-    /**
-     * Set video
-     *
-     * @param string $video
-     * @return Movie
-     */
-    public function setVideo($video)
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
-    /**
-     * Get video
-     *
-     * @return string 
-     */
-    public function getVideo()
-    {
-        return $this->video;
+    	$genre_names = array();
+    	foreach ($this->genres as $genre)
+    	{
+    		$genre_names[] = $genre->getName();
+    	}
+    	
+    	return implode(", ", $genre_names);
     }
 }

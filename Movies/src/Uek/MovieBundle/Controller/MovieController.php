@@ -5,19 +5,20 @@ namespace Uek\MovieBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Uek\MovieBundle\Entity\Movie;
+use Uek\MovieBundle\Entity\Genre;
 
-/**
- * @Route("/movies")
- */
+// /**
+//  * @Route("/movies")
+//  */
 class MovieController extends Controller
 {
 	/**
 	 * @Route("/demo/create")
 	 */
-	public function demo_createAction()
+	public function createDemoAction()
 	{
 		// First, reset the previous demo movies
-		$this->demo_resetAction();
+		$this->resetDemoAction();
 		
 		// Second, add new ones
 		$demo_list = [
@@ -54,7 +55,7 @@ class MovieController extends Controller
 	/**
 	 * @Route("/demo/reset")
 	 */
-	public function demo_resetAction()
+	public function resetDemoAction()
 	{
 		$em = $this->getDoctrine()->getManager();
 
@@ -67,6 +68,35 @@ class MovieController extends Controller
 
 		$movies = $em->getRepository('UekMovieBundle:Movie')->findAll();
 		return $this->render('UekMovieBundle:Movie:all.html.twig', array('movies' => $movies));
+	}
+	
+	/**
+	 * @Route("/movie/create")
+	 */
+	public function createMovieAction()
+	{
+		$genre = new Genre();
+		$genre->setName('Demo genre');
+		$genre2 = new Genre();
+		$genre2->setName('Demo genre2');
+		
+		$movie = new Movie();
+		$movie->setTitle('Demo movie');
+		$movie->setDescription('Demo movie description');
+		$movie->setActors('Demo actro1, demo actor2');
+		$movie->setCoverArt("demo cover");
+		$movie->setVideo('demo video');
+		
+		// relate this movie to the genre
+		$movie->addGenre($genre);
+		$movie->addGenre($genre2);
+		
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($genre);
+		$em->persist($movie);
+		$em->flush();
+		
+		return $this->render('UekMovieBundle:Movie:movie.html.twig', array('movie' => $movie));
 	}
 	
 	/**
