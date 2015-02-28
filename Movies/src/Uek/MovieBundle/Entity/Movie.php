@@ -234,4 +234,20 @@ class Movie {
     	
     	return implode(", ", $genre_names);
     }
+    
+    /**
+     * Add genres
+     *
+     * @param array of \Uek\MovieBundle\Entity\Genre $genres
+     * @return Movie
+     */
+    public function addGenres($array_of_genres)
+    {
+    	foreach($array_of_genres as $genre)
+    	{
+    		$this->addGenre($genre);
+    	}
+
+        return $this;
+    }
 }

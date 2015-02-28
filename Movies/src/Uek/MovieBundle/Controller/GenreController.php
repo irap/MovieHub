@@ -17,17 +17,8 @@ class GenreController extends Controller
 	 */
 	public function createGenreAction($name)
 	{
-		$em = $this->getDoctrine()->getManager();
-		
-		// check for duplicates
-		$genre = $em->getRepository('UekMovieBundle:Genre')->findOneByName($name);
-		if (!$genre) 
-		{
-			$genre = new Genre();
-			$genre->setName($name);
-			$em->persist($genre);
-			$em->flush();
-		}
+		$ganre_service = $this->get('uek.moviebundle.genre.helper');
+		$genre = $ganre_service->createGenre($name);
 		
 		return $this->render('UekMovieBundle:Genre:genre.html.twig', array('genre' => $genre));
 	}

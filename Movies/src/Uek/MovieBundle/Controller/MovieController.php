@@ -4,6 +4,7 @@ namespace Uek\MovieBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Uek\MovieBundle\Helpers\GenreHelper;
 use Uek\MovieBundle\Entity\Movie;
 use Uek\MovieBundle\Entity\Genre;
 
@@ -23,27 +24,35 @@ class MovieController extends Controller
 		// Second, add new ones
 		$demo_list = [
 			['These Final Hours',
+			  ['Drama', 'Thriller'],
 			 'A self-obsessed young man makes his way to the party-to-end-all-parties on the last day on Earth, but ends up saving the life of a little girl searching for her father. Their relationship ultimately leads him on the path to redemption.',
 			 'Sarah Snook, Jessica De Gouw, Nathan Phillips',
 			 'http://static.hd-trailers.net/images/these-final-hours-122456-poster-xlarge-resized.jpg',
 			 'http://www.imdb.com/video/imdb/vi1426370073/imdb/embed?autoplay=false&width=480'],
 
 			['Unfinished Business',
+			  ['Comedy'],
 			 'A hard-working small business owner and his two associates travel to Europe to close the most important deal of their lives. But what began as a routine business trip goes off the rails in every way imaginable - and unimaginable - way, including unplanned stops at a massive sex fetish event and a global economic summit.',
 			 'Vince Vaughn, Dave Franco, Tom Wilkinson',
 			 'http://ia.media-imdb.com/images/M/MV5BNjg5NzU5ODE5OV5BMl5BanBnXkFtZTgwMjM1MjE2NDE@._V1_SY317_CR0,0,214,317_AL_.jpg',
 			 'http://www.imdb.com/video/imdb/vi1415687705/imdb/embed?autoplay=false&width=480'],
 		];
+
+		$ganre_service = $this->get('uek.moviebundle.genre.helper');
+		
 		
 		$em = $this->getDoctrine()->getManager();
-		foreach ($demo_list as list($title, $description, $actors, $coverArt, $video)) {
+		foreach ($demo_list as list($title, $genres_name, $description, $actors, $coverArt, $video)) {
 			$movie = new Movie();
 			$movie->setTitle($title);
 			$movie->setDescription($description);
 			$movie->setActors($actors);
 			$movie->setCoverArt($coverArt);
 			$movie->setVideo($video);
-				
+			
+			$ganres = $ganre_service->createGenres($genres_name);
+			$movie->addGenres($ganres);
+
 			$em->persist($movie);
 		}
 		$em->flush();

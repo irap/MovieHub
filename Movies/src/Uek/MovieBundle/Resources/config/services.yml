@@ -1,4 +1,8 @@
 services:
+    uek.moviebundle.genre.helper:
+        class: Uek\MovieBundle\Helpers\GenreHelper
+        arguments: ['@doctrine.orm.entity_manager']        
 #    uek_movie.example:
 #        class: Uek\MovieBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
