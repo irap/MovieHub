@@ -11,13 +11,15 @@
 			<h4 class="media-heading">
 				<b>{{ movie.getTitle() }}</b>
 			</h4>
+			<p><b>Genres:</b> {{ movie.getDescription() }}</p>
 			<p><b>Genres:</b> {{ movie.getGenresAsString() }}</p>
-			<p><b>Actors:</b> {{ movie.getActors() }}
+			<p><b>Actors:</b> {{ movie.getActors() }}</p>
 			
 			<p>
 				<a href="/movies/movie/{{ movie.getId() }}"
 					class="btn btn-default btn-sm" role="button">Borrow</a>
 			</p>
+			<p>
 				<a href="/movies/movie/watch/{{ movie.getId() }}"
 					class="btn btn-default btn-sm" role="button">Watch</a>
 			</p>
