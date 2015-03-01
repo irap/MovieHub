@@ -52,4 +52,15 @@ class GenreHelper
 		
 		return $genres;
 	}
+	
+	/**
+	 * Get all genres currently defined in our db
+	 * @retrun array of Genre objects
+	 */
+	public function getGenres()
+	{
+		$em = $this->em;
+		$genres = $em->getRepository('UekMovieBundle:Genre')->findAll();
+		return $genres;
+	}
 }

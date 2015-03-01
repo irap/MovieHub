@@ -9,7 +9,7 @@ use Uek\MovieBundle\Entity\Genre;
 /**
  * Uek\MovieBundle\Entity\Movie
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Uek\MovieBundle\Entity\MovieRepository")
  * @ORM\Table(name="movies")
  *
  * @ORM\HasLifecycleCallbacks
@@ -47,13 +47,16 @@ class Movie {
 	 */
 	protected $video;
 	
-	/**
-	 * @ORM\ManyToMany(targetEntity="Genre")
-	 * @ORM\JoinTable(name="movies_genres",
-	 *      joinColumns={@ORM\JoinColumn(name="movie_id", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="genre_id", referencedColumnName="id", unique=true)}
-	 *      )
-	 **/
+// 	/**
+// 	 * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
+// 	 * @ORM\JoinTable(name="movies_genres",
+// 	 *      joinColumns={@ORM\JoinColumn(name="movie_id", referencedColumnName="id")},
+// 	 *      inverseJoinColumns={@ORM\JoinColumn(name="genre_id", referencedColumnName="id", unique=true)}
+// 	 *      )
+// 	 **/
+    /**
+     * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
+     **/	
 	private $genres;
 	
 	public function __construct() {
@@ -187,26 +190,27 @@ class Movie {
     }
 
     /**
-     * Add genres
+     * Add genre
      *
-     * @param \Uek\MovieBundle\Entity\Genre $genres
+     * @param \Uek\MovieBundle\Entity\Genre $genre
      * @return Movie
      */
-    public function addGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    public function addGenre(\Uek\MovieBundle\Entity\Genre $genre)
     {
-        $this->genres[] = $genres;
+    	$genre->addMovie($this);
+        $this->genres[] = $genre;
 
         return $this;
     }
 
     /**
-     * Remove genres
+     * Remove genre
      *
-     * @param \Uek\MovieBundle\Entity\Genre $genres
+     * @param \Uek\MovieBundle\Entity\Genre $genre
      */
-    public function removeGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    public function removeGenre(\Uek\MovieBundle\Entity\Genre $genre)
     {
-        $this->genres->removeElement($genres);
+        $this->genres->removeElement($genre);
     }
 
     /**

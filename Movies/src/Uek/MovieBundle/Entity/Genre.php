@@ -5,6 +5,8 @@ namespace Uek\MovieBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+use Uek\MovieBundle\Entity\Movie;
+
 /**
  * Uek\MovieBundle\Entity\Movie
  *
@@ -26,7 +28,14 @@ class Genre {
 	 */
 	protected $name;
 	
-	public  function __construct() {
+	/**
+	 * Inverse Side
+	 *
+	 * @ORM\ManyToMany(targetEntity="Movie", mappedBy="genres")
+	 */
+	private $movies;
+	
+    public  function __construct() {
 	}
 
     /**
@@ -60,5 +69,38 @@ class Genre {
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Remove movie
+     *
+     * @param \Uek\MovieBundle\Entity\Movies $movie
+     */
+    public function removeMovie(\Uek\MovieBundle\Entity\Movie $movie)
+    {
+        $this->movies->removeElement($movie);
+    }
+
+    /**
+     * Add movie
+     *
+     * @param \Uek\MovieBundle\Entity\Movie $movie
+     * @return Genre
+     */
+    public function addMovie(\Uek\MovieBundle\Entity\Movie $movie)
+    {
+        $this->movies[] = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Get movies
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMovies()
+    {
+        return $this->movies;
     }
 }

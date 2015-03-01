@@ -5,8 +5,12 @@ namespace Uek\MovieBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Uek\MovieBundle\Helpers\GenreHelper;
+use Uek\MovieBundle\Helpers\MovieHelper;
+
 use Uek\MovieBundle\Entity\Movie;
 use Uek\MovieBundle\Entity\Genre;
+use Uek\MovieBundle\Form\Filter\MovieFilterType;
+
 
 // /**
 //  * @Route("/movies")
@@ -38,27 +42,13 @@ class MovieController extends Controller
 			 'http://www.imdb.com/video/imdb/vi1415687705/imdb/embed?autoplay=false&width=480'],
 		];
 
-		$ganre_service = $this->get('uek.moviebundle.genre.helper');
-		
-		
-		$em = $this->getDoctrine()->getManager();
-		foreach ($demo_list as list($title, $genres_name, $description, $actors, $coverArt, $video)) {
-			$movie = new Movie();
-			$movie->setTitle($title);
-			$movie->setDescription($description);
-			$movie->setActors($actors);
-			$movie->setCoverArt($coverArt);
-			$movie->setVideo($video);
-			
-			$ganres = $ganre_service->createGenres($genres_name);
-			$movie->addGenres($ganres);
-
-			$em->persist($movie);
+		$movie_helper = $this->get('uek.moviebundle.movie.helper');
+		foreach ($demo_list as $movie_params) 
+		{
+			$movie_helper->createMovie($movie_params);
 		}
-		$em->flush();
 		
-		$movies = $em->getRepository('UekMovieBundle:Movie')->findAll();
-		return $this->render('UekMovieBundle:Movie:all.html.twig', array('movies' => $movies));
+		return $this->redirect($this->generateUrl('_all_movies'));
 	}
 
 	/**
@@ -76,7 +66,7 @@ class MovieController extends Controller
 		$em->flush();
 
 		$movies = $em->getRepository('UekMovieBundle:Movie')->findAll();
-		return $this->render('UekMovieBundle:Movie:all.html.twig', array('movies' => $movies));
+		return $this->redirect($this->generateUrl('_all_movies'));
 	}
 	
 	/**
@@ -109,16 +99,47 @@ class MovieController extends Controller
 	}
 	
 	/**
-	 * @Route("/all")
+	 * @Route("/all", name="_all_movies")
 	 */
     public function allAction()
     {
+    	$ganre_helper = $this->get('uek.moviebundle.genre.helper');
+    	$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
+    	
     	$movies = $this->getDoctrine()
-    				->getRepository('UekMovieBundle:Movie')
-    				->findAll();
-        return $this->render('UekMovieBundle:Movie:all.html.twig', array('movies' => $movies));
+    		->getRepository('UekMovieBundle:Movie')
+    		->findAll();
+    	
+    	return $this->render('UekMovieBundle:Movie:all.html.twig', array(
+    			'movies' => $movies, 'filter_form' => $form->createView()));
     }
 
+    /**
+     * Displays filtered items.
+     *
+     * @Route("/filter/by/genre/{name}", name="_filter_by_genre")
+     *
+     */
+    public function filterMovieByGenreAction($name)
+    {
+    	// initialize a query builder
+    	$em = $this->getDoctrine()->getManager();
+    	$genre = $em->getRepository('UekMovieBundle:Genre')->findOneByName($name);
+    	if ($genre != null)
+    	{
+    		$ganre_helper = $this->get('uek.moviebundle.genre.helper');
+    		$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
+    		$movies = $em->getRepository('UekMovieBundle:Movie')->findByGenre($genre);
+    
+    		return $this->render('UekMovieBundle:Movie:all.html.twig', array(
+    				'movies' => $movies, 'filter_form' => $form->createView()));
+    	}
+    	else
+    	{
+    		return $this->redirect($this->generateUrl('_all_movies'));
+    	}
+    }
+    
     /**
      * @Route("/movie/{id}")
      */
@@ -133,12 +154,64 @@ class MovieController extends Controller
     /**
      * @Route("/movie/watch/{id}")
      */
-    public function watch_movieAction($id)
+    public function watchMovieAction($id)
     {
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
     	return $this->render('UekMovieBundle:Movie:watch.movie.html.twig', array('movie' => $movie));
     }
+    
+    /**
+     * Handler filer form submit.
+     *
+     * @Route("/filter", name="_filter")
+     *
+     */
+    public function filterMovieAction()
+    {
+    	$ganre_helper = $this->get('uek.moviebundle.genre.helper');
+    	$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
+    	 
+    	$genre = null;
+    	
+    	///
+    	if ($this->get('request')->isMethod('POST')) {
+    		$form->submit($this->get('request')->request->get($form->getName()));
+    	
+    		if ($form->isValid()) {
+    		   	$genre_filter = $form->get('genre_filter')->getData();
+    			if ($genre_filter != -1)
+    			{
+    				$em = $this->getDoctrine()->getManager();
+    				$genre = $em->getRepository('UekMovieBundle:Genre')->findOneById($genre_filter);
+    			}
+    		}
+    	}
+    	///
+    	else if ($this->get('request')->query->has('submit-filter'))
+    	{
+    		// bind values from the request
+    		$form->bind($this->get('request'));
+    	
+    		$genre_filter = $form->get('genre_filter')->getData();
+    		if ($genre_filter != -1)
+    		{
+    			// initialize a query builder
+    			$em = $this->getDoctrine()->getManager();
+    			$genre = $em->getRepository('UekMovieBundle:Genre')->findOneById($genre_filter);
+    		}
+    	}
+    	
+    	if ($genre != null)
+    	{
+    		return $this->redirect($this->generateUrl('_filter_by_genre', array('name' => $genre->getName())));
+    	}
+    	else
+    	{
+    		return $this->redirect($this->generateUrl('_all_movies'));
+    	}
+    }
+
     
 }

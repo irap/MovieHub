@@ -21,21 +21,11 @@
 	</div>
 		
         <div class="col-xs-2">
-            <h5>Genres:</h5>
-				{#          <div class="well" style="max-height: 300px;overflow: auto;">#}
- 				<div class="well">
-            	<ul id="check-list-box" class="list-group checked-list-box">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item" data-color="success">Dapibus ac facilisis in</li>
-                  <li class="list-group-item" data-color="info">Morbi leo risus</li>
-                  <li class="list-group-item" data-color="warning">Porta ac consectetur ac</li>
-                  <li class="list-group-item" data-color="danger">Vestibulum at eros</li>
-                </ul>
-                <br />
-                <button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button>
+				<form method="post" action="{{ path('_filter') }}">
+				    {{ form_widget(filter_form['genre_filter']) }} 
+				    <input type="submit" name="submit-filter" value="Filter" />
+				</form> 
             </div>
-            <pre id="display-json"></pre>
-        </div>        
 
 </div>
 {% endblock content %}
