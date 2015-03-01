@@ -4,7 +4,12 @@ services:
         arguments: ['@doctrine.orm.entity_manager']        
     uek.moviebundle.movie.helper:
         class: Uek\MovieBundle\Helpers\MovieHelper
-        arguments: ['@doctrine.orm.entity_manager', '@uek.moviebundle.genre.helper']        
+        arguments: ['@doctrine.orm.entity_manager', '@uek.moviebundle.genre.helper']     
+    uek.moviebundle.sort.helper:
+        class: Uek\MovieBundle\Helpers\SortHelper
+        arguments: ['@doctrine.orm.entity_manager']     
+        
+           
 #    uek_movie.example:
 #        class: Uek\MovieBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

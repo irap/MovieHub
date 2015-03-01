@@ -4,6 +4,7 @@ namespace Uek\MovieBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Uek\MovieBundle\Entity;
+use Uek\MovieBundle\Helpers\SortHelper;
 
 /**
  * MovieRepository
@@ -13,8 +14,50 @@ use Uek\MovieBundle\Entity;
  */
 class MovieRepository extends EntityRepository
 {
+	public function findAllSortByTitle($order = 'ASC')
+	{
+		return $this->findBy(array(), array('title' => $order));
+	}
+	
+	public function findAllSortByWatchNumber($order = 'ASC')
+	{
+		return $this->findBy(array(), array('watchNumber' => $order));
+	}
+
+	public function findAllSortByBorrowNumber($order = 'ASC')
+	{
+		return $this->findBy(array(), array('borrowNumber' => $order));
+	}
+	
 	public function findByGenre(Genre $genre)
 	{
 		return $genre->getMovies();
 	}
+	
+	public function findAllByAndSort(Genre $genre = NULL, $sort_helper)
+	{
+		$movies = array();
+		if ($genre == null)
+		{
+			switch ($sort_helper->getCurrentChoice())
+			{
+				case SortHelper::SortByTitle:
+					$movies = $this->findAllSortByTitle();
+					break;
+				case SortHelper::SortByMostWatchNumber:
+					$movies = $this->findAllSortByWatchNumber('DESC');
+					break;
+				case SortHelper::SortByMostBorrowNumber:
+					$movies = $this->findAllSortByBorrowNumber('DESC');
+					break;
+			}
+		}
+		else
+		{
+			$movies = $genre->getMovies();
+		}
+		
+		return $movies;
+	}
+	
 }

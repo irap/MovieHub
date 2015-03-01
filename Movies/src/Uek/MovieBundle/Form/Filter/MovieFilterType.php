@@ -6,6 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 use Uek\MovieBundle\Helpers\GenreHelper;
+use Uek\MovieBundle\Entity\Genre;
+
 
 class MovieFilterType extends AbstractType
 {
@@ -15,7 +17,11 @@ class MovieFilterType extends AbstractType
     {
     	$choices = array();
     	$lables = array();
-    	$preferredChoices = array();
+    	$default_choice = -1;
+    	if ($this->genreHelper->getFilterGenre() != null)
+    	{
+    		$default_choice = $this->genreHelper->getFilterGenre()->getId();
+    	}
     	
     	$choices[] = -1;
     	$lables[] = 'All genres';
@@ -27,9 +33,9 @@ class MovieFilterType extends AbstractType
     		$lables[] = $genre->getName();
     	}
     	
-    	$genre_choice = new ChoiceList($choices, $lables, $preferredChoices);
-    	$builder->add('genre_filter', 'choice', array('choice_list' => $genre_choice, 
-    			/* 'multiple' => true, */ /* 'expanded' => true */));
+    	$genre_choice = new ChoiceList($choices, $lables);
+    	$builder->add('filter_by', 'choice', array('choice_list' => $genre_choice, 
+    			/* 'multiple' => true, */ /* 'expanded' => true */ 'data' => $default_choice));
     }
 
     public function __construct(GenreHelper $genreHelper)

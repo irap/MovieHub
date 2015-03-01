@@ -25,17 +25,20 @@
 </head>
 
 <body class=body">
-{% block body %}
 <div class="container-fluid">
+{% block body %}
 
+<div class="container-fluid">
 {% block pageheader %}
 <div class="page-header">
    <h1>MovieS 
       <small>for borrowing movies</small>
    </h1>
 </div>
-{% endblock %}
+{% endblock pageheader %}
+<div> <!-- container-fluid -->
 
+<div class="container-fluid">
 {% block navbar %}
 <nav class="navbar navbar-default" role="navigation">
    <div class="navbar-header">
@@ -58,20 +61,27 @@
       </p>
 	<div>
 </nav>
-{% endblock %}
+{% endblock navbar %}
+<div> <!-- container-fluid -->
 
+<div class="container-fluid">
+<div class="col-12">
 <div class="content">
 {% block content %}
-{% endblock %}
+{% endblock content %}
 </div>
+</div> <!-- col-12 -->
+<div> <!-- container-fluid -->
 
+<div class="container-fluid">
 <div class="footer">
 {% block footer %}
 &copy; 2015 UEC Students. Created with Symfony2.
-{% endblock %}
+{% endblock footer %}
 </div>
+<div> <!-- container-fluid -->
 
-</div>
-{% endblock %}
+{% endblock body %}
+</div> <!-- container-fluid -->
 </body>
 </html>

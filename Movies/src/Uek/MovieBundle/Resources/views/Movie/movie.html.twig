@@ -11,9 +11,14 @@
 			<h4 class="media-heading">
 				<b>{{ movie.getTitle() }}</b>
 			</h4>
-			<p><b>Genres:</b> {{ movie.getDescription() }}</p>
+			<div class="container-fluid">
+			<div class="col-6 col-sm-6 col-lg-4">
+			<p> {{ movie.getDescription() }}</p>
+			<div>
+			</div>
 			<p><b>Genres:</b> {{ movie.getGenresAsString() }}</p>
 			<p><b>Actors:</b> {{ movie.getActors() }}</p>
+			<p><small>watched: {{ movie.getWatchNumber() }}  borrowed: {{ movie.getBorrowNumber() }}</small></p> 
 			
 			<p>
 				<a href="/movies/movie/{{ movie.getId() }}"

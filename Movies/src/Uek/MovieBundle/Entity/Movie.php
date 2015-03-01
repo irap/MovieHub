@@ -47,22 +47,24 @@ class Movie {
 	 */
 	protected $video;
 	
-// 	/**
-// 	 * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
-// 	 * @ORM\JoinTable(name="movies_genres",
-// 	 *      joinColumns={@ORM\JoinColumn(name="movie_id", referencedColumnName="id")},
-// 	 *      inverseJoinColumns={@ORM\JoinColumn(name="genre_id", referencedColumnName="id", unique=true)}
-// 	 *      )
-// 	 **/
     /**
      * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
      **/	
 	private $genres;
+
+	/**
+	 * @ORM\Column(type="integer", nullable=false, options={"default" = 0})
+	 */
+	protected $watchNumber = 0;
+	
+	/**
+	 * @ORM\Column(type="integer", nullable=false, options={"default" = 0})
+	 */
+	protected $borrowNumber = 0;
 	
 	public function __construct() {
 		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
 	}
-
 
     /**
      * Get id
@@ -253,5 +255,67 @@ class Movie {
     	}
 
         return $this;
+    }
+
+    /**
+     * Called on watched movie
+     */
+    public function watched()
+    {
+    	$this->setWatchNumber($this->watchNumber + 1);
+    }
+
+    /**
+     * Called on borrowed movie
+     */
+    public function borrowed()
+    {
+    	$this->setBorrowedNumber($this->borrowNumber + 1);
+    }
+    
+    /**
+     * Set watchNumber
+     *
+     * @param integer $watchNumber
+     * @return Movie
+     */
+    public function setWatchNumber($watchNumber)
+    {
+        $this->watchNumber = $watchNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get watchNumber
+     *
+     * @return integer 
+     */
+    public function getWatchNumber()
+    {
+        return $this->watchNumber;
+    }
+
+    /**
+     * Set borrowNumber
+     *
+     * @param integer $borrowNumber
+     * @return Movie
+     */
+    public function setBorrowNumber($borrowNumber)
+    {
+        $this->borrowNumber = $borrowNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get borrowNumber
+     *
+     * @return integer 
+     */
+    public function getBorrowNumber()
+    {
+        return $this->borrowNumber;
     }
 }

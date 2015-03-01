@@ -6,10 +6,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Uek\MovieBundle\Helpers\GenreHelper;
 use Uek\MovieBundle\Helpers\MovieHelper;
+use Uek\MovieBundle\Helpers\SortHelper;
 
 use Uek\MovieBundle\Entity\Movie;
 use Uek\MovieBundle\Entity\Genre;
 use Uek\MovieBundle\Form\Filter\MovieFilterType;
+use Uek\MovieBundle\Form\Sort\MovieSortType;
 
 
 // /**
@@ -103,15 +105,21 @@ class MovieController extends Controller
 	 */
     public function allAction()
     {
-    	$ganre_helper = $this->get('uek.moviebundle.genre.helper');
-    	$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
-    	
+    	$sort_helper = $this->getSortHelper();
+    	$genre_helper = $this->getGenreHelper();
+
+    	$filter_form = $this->get('form.factory')->create(new MovieFilterType($genre_helper));
+    	$sort_form = $this->get('form.factory')->create(new MovieSortType($sort_helper));
+    	    	 
     	$movies = $this->getDoctrine()
     		->getRepository('UekMovieBundle:Movie')
-    		->findAll();
+    		->findAllByAndSort($genre_helper->getFilterGenre(), $sort_helper);
+    	
     	
     	return $this->render('UekMovieBundle:Movie:all.html.twig', array(
-    			'movies' => $movies, 'filter_form' => $form->createView()));
+    			'movies' => $movies, 'filter_form' => $filter_form->createView(),
+    			'sort_form' => $sort_form->createView()
+    	));
     }
 
     /**
@@ -122,13 +130,15 @@ class MovieController extends Controller
      */
     public function filterMovieByGenreAction($name)
     {
-    	// initialize a query builder
+    	$sort_helper = $this->getSortHelper();
+    	$genre_helper = $this->getGenreHelper();
+    	 
+    		// initialize a query builder
     	$em = $this->getDoctrine()->getManager();
     	$genre = $em->getRepository('UekMovieBundle:Genre')->findOneByName($name);
     	if ($genre != null)
     	{
-    		$ganre_helper = $this->get('uek.moviebundle.genre.helper');
-    		$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
+    		$form = $this->get('form.factory')->create(new MovieFilterType($genre_helper));
     		$movies = $em->getRepository('UekMovieBundle:Movie')->findByGenre($genre);
     
     		return $this->render('UekMovieBundle:Movie:all.html.twig', array(
@@ -159,7 +169,17 @@ class MovieController extends Controller
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
-    	return $this->render('UekMovieBundle:Movie:watch.movie.html.twig', array('movie' => $movie));
+    	
+    	if ($movie)
+    	{
+    		$movie->watched();
+    		$this->getDoctrine()->getManager()->flush();
+    		return $this->render('UekMovieBundle:Movie:watch.movie.html.twig', array('movie' => $movie));
+    	}
+    	else
+    	{
+    		return $this->redirect($this->generateUrl('_all_movies'));
+    	}
     }
     
     /**
@@ -170,17 +190,17 @@ class MovieController extends Controller
      */
     public function filterMovieAction()
     {
-    	$ganre_helper = $this->get('uek.moviebundle.genre.helper');
-    	$form = $this->get('form.factory')->create(new MovieFilterType($ganre_helper));
+    	$genre_helper = $this->getGenreHelper();
+     	$form = $this->get('form.factory')->create(new MovieFilterType($genre_helper));
     	 
     	$genre = null;
     	
-    	///
-    	if ($this->get('request')->isMethod('POST')) {
+    	if ($this->get('request')->isMethod('POST')) 
+    	{
     		$form->submit($this->get('request')->request->get($form->getName()));
     	
     		if ($form->isValid()) {
-    		   	$genre_filter = $form->get('genre_filter')->getData();
+    		   	$genre_filter = $form->get('filter_by')->getData();
     			if ($genre_filter != -1)
     			{
     				$em = $this->getDoctrine()->getManager();
@@ -188,30 +208,48 @@ class MovieController extends Controller
     			}
     		}
     	}
-    	///
-    	else if ($this->get('request')->query->has('submit-filter'))
-    	{
-    		// bind values from the request
-    		$form->bind($this->get('request'));
     	
-    		$genre_filter = $form->get('genre_filter')->getData();
-    		if ($genre_filter != -1)
-    		{
-    			// initialize a query builder
-    			$em = $this->getDoctrine()->getManager();
-    			$genre = $em->getRepository('UekMovieBundle:Genre')->findOneById($genre_filter);
+    	$genre_helper->setFilterGenre($genre);
+    	
+    	return $this->redirect($this->generateUrl('_all_movies'));
+    }
+
+    /**
+     * Handler sort form submit.
+     *
+     * @Route("/sort", name="_sort")
+     *
+     */
+    public function sortMovieAction()
+    {
+    	$sort_helper = $this->getSortHelper();
+    	$sort_form = $this->get('form.factory')->create(new MovieSortType($sort_helper));
+    	 
+    	$choice = SortHelper::SortByTitle;
+   	
+    	$sort = null;
+    	 
+    	if ($this->get('request')->isMethod('POST')) {
+    		$sort_form->submit($this->get('request')->request->get($sort_form->getName()));
+    		if ($sort_form->isValid()) {
+    			$choice = $sort_form->get('sort_by')->getData();
     		}
     	}
-    	
-    	if ($genre != null)
-    	{
-    		return $this->redirect($this->generateUrl('_filter_by_genre', array('name' => $genre->getName())));
-    	}
-    	else
-    	{
-    		return $this->redirect($this->generateUrl('_all_movies'));
-    	}
+
+    	$sort_helper->setCurrentChoice($choice);
+   		return $this->redirect($this->generateUrl('_all_movies'));
     }
 
     
+    protected function getSortHelper()
+    {
+    	$sort_helper = $this->get('uek.moviebundle.sort.helper');
+    	return $sort_helper;
+    }
+
+    protected function getGenreHelper()
+    {
+  		$genre_helper = $this->get('uek.moviebundle.genre.helper');
+    	return $genre_helper;
+    }
 }
