@@ -1,0 +1,4 @@
+services:
+#    uek_store.example:
+#        class: Uek\StoreBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

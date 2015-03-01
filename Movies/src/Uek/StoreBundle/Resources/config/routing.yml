@@ -1,0 +1,4 @@
+store:
+    prefix: /store
+    resource: "@UekStoreBundle/Controller/StoreController.php"
+    type:     annotation

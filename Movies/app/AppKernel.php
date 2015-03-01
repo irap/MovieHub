@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Uek\UserBundle\UekUserBundle(),
             new Uek\MovieBundle\UekMovieBundle(),
+            new Uek\StoreBundle\UekStoreBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
