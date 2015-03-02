@@ -5,6 +5,7 @@ namespace Uek\MovieBundle\Helpers;
 use Doctrine\ORM\EntityManager;
 use Uek\MovieBundle\Entity\Genre;
 use Uek\MovieBundle\Entity\Movie;
+use Uek\MovieBundle\Entity\Filter;
 use Uek\MovieBundle\Helpers\GenreHelper;
 
 class SortHelper 
