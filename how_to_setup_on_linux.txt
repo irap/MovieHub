@@ -1,0 +1,29 @@
+How to setup project on Linux (Debian)
+
+0) Open Terminal
+
+1) Install support packages. Do this only.
+ apt-get update && \
+ apt-get install php5-common libapache2-mod-php5 php5-cli php5-mysql php5-sqlite php5-curl -y && \
+ apt-get install curl -y
+
+2) Donwload MovieS
+git clone -b Issue2-MovieBundle "https://uecstudent@bitbucket.org/uecstudent/moviehub.git" MovieS
+
+3) Switch to symfony2 project dir
+cd MovieS/Movies
+
+4) Install php composer to the symfony2 project dir
+curl -sS https://getcomposer.org/installer | php
+
+5) Install symfony framework the symfony2 project dir
+php composer.phar update --no-interaction
+
+6) Create data base:
+php app/console doctrine:schema:create
+
+7) Run application (web site)
+php app/console server:run
+
+8) Create fill the demo information ot our data base
+gnome-open http://127.0.0.1:8000/movies/demo/create
