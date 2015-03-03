@@ -11,3 +11,8 @@ fos_user:
 app:
     resource: @AppBundle/Controller/
     type:     annotation
+
+demo:
+    prefix: /demo
+    resource: "@AppBundle/Controller/DemoController.php"
+    type:     annotation

@@ -14,6 +14,34 @@ use Uek\MovieBundle\Helpers\SortHelper;
  */
 class MovieRepository extends EntityRepository
 {
+	public function findMostBorrowed($count = 1)
+	{
+		$qb = $this->createQueryBuilder('m')
+		->addSelect('COUNT(o) AS HIDDEN orderCount')
+		->leftJoin('m.orders', 'o')
+		->groupBy('m')
+		->orderBy('orderCount', 'DESC')
+		->setMaxResults($count);
+		
+		$moives = $qb->getQuery()->getResult();
+		
+		return $moives;
+	}
+
+	public function findMostReviewed($count = 1)
+	{
+		$qb = $this->createQueryBuilder('m')
+		->addSelect('COUNT(r) AS HIDDEN reviewCount')
+		->leftJoin('m.reviews', 'r')
+		->groupBy('m')
+		->orderBy('reviewCount', 'DESC')
+		->setMaxResults($count);
+		
+		$moives = $qb->getQuery()->getResult();
+		
+		return $moives;
+	}
+	
 	public function findAllSortByTitle($order = 'ASC')
 	{
 		return $this->findBy(array(), array('title' => $order));
@@ -59,5 +87,4 @@ class MovieRepository extends EntityRepository
 		
 		return $movies;
 	}
-	
 }

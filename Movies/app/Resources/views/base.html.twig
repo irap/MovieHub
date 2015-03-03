@@ -19,9 +19,13 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	    {% endblock %}
     	
+    	{% block libraries %}
+    	{% endblock libraries %}
+    	{% block scripts %}
+    	{% endblock scripts %}	
     	<title>{% block title %}{% endblock %} - Movies Webpage</title>
 	    
-	{% endblock %}
+	{% endblock head %}
 </head>
 
 <body class=body">
@@ -42,7 +46,7 @@
 {% block navbar %}
 <nav class="navbar navbar-default" role="navigation">
    <div class="navbar-header">
-      <a class="navbar-brand" href="/movies/all">MovieS</a>
+      <a class="navbar-brand" href="/">MovieS</a>
    </div>
    <div>
       <ul class="nav navbar-nav">

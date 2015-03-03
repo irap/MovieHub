@@ -10,13 +10,16 @@ class StoreController extends Controller
 	/**
 	 * @Route("/orders/all")
 	 */
-	public function allOrdersAction()
+	public function showAllOrdersAction()
     {
     	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
     		return $this->render('UekStoreBundle:Store:please.login.html.twig');
     	}
     	
-    	$orders = array();
-        return $this->render('UekStoreBundle:Store:orders.html.twig', array('orders' => $orders));
+    	$user= $this->get('security.context')->getToken()->getUser();
+    	$em = $this->getDoctrine()->getManager();
+    	$orders = $em->getRepository('UekStoreBundle:Order')->findByUser($user);
+    	
+    	return $this->render('UekStoreBundle:Store:orders.html.twig', array('orders' => $orders));
     }
 }

@@ -1,7 +1,48 @@
 {% extends 'base.html.twig' %}
 
+{% block libraries %}
+	{{ parent() }}
+
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">   
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<link rel="stylesheet" 
+href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" 
+src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" 
+src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+{% endblock libraries %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script>
+		$(document).ready(function(){
+    		$('#orderTable').dataTable({'oLanguage': {
+    			'sEmptyTable': "You have no orders!"
+    		}});
+		});
+	</script>
+{% endblock scripts %}
+
 {% block content %}
-
-Orders. TODO.
-
+<div class="container-fluid">
+<div class="col-xs-4">
+<table id="orderTable">  
+        <thead>  
+          <tr>  
+            <th>Order #</th>  
+            <th>Date</th>  
+          </tr>  
+        </thead>  
+        <tbody>  
+			{% for order in orders %}
+        		<tr>  
+            		<td>{{ order.getId() }}</td>  
+            		<td>{{ order.getCreatedAt() }}</td>  
+          		</tr>  
+			{% endfor %}
+        </tbody>  
+</table>  
+</div>
+</div>
 {% endblock content %}

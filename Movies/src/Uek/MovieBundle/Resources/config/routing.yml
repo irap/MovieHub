@@ -1,10 +1,5 @@
-movies:
-    prefix: /movies
+movie:
+    prefix: /
     resource: "@UekMovieBundle/Controller/MovieController.php"
-    type:     annotation
- 
-genres:
-    prefix: /genres
-    resource: "@UekMovieBundle/Controller/GenreController.php"
     type:     annotation
  

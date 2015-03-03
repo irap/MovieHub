@@ -4,7 +4,7 @@
 <div class="container-fluid">
 	<div class="media">
 		<div class="media-left">
-			<a href="/movies/movie/{{ movie.getId() }}"><img class="media-object"
+			<a href="/movie/{{ movie.getId() }}"><img class="media-object"
 				src="{{ movie.getCoverArt() }}" alt=""></a>
 		</div>
 		<div class="media-body">
@@ -16,17 +16,16 @@
 			<p> {{ movie.getDescription() }}</p>
 			<div>
 			</div>
-			<p><b>Genres:</b> {{ movie.getGenresAsString() }}</p>
 			<p><b>Actors:</b> {{ movie.getActors() }}</p>
-			<p><small>watched: {{ movie.getWatchNumber() }}  borrowed: {{ movie.getBorrowNumber() }}</small></p> 
+			<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getOrderNumber() }}</small></p> 
 			
 			<p>
-				<a href="/movies/movie/{{ movie.getId() }}"
-					class="btn btn-default btn-sm" role="button">Borrow</a>
-			</p>
-			<p>
-				<a href="/movies/movie/watch/{{ movie.getId() }}"
+				<a href="/movie/{{ movie.getId() }}/watch"
 					class="btn btn-default btn-sm" role="button">Watch</a>
+				<a href="/movie/{{ movie.getId() }}/review"
+					class="btn btn-default btn-sm" role="button">Add Review</a>
+				<a href="/movie/{{ movie.getId() }}/borrow"
+					class="btn btn-default btn-sm" role="button">Borrow</a>
 			</p>
 		</div>
 	</div>

@@ -28,6 +28,11 @@ class User extends BaseUser
 	 */
 	protected $id;
 
+	/**
+	 * @ORM\OneToOne(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="user")
+	 **/
+	protected $orders;
+	
 	public 
 function __construct() {
 	parent::__construct ();
@@ -62,5 +67,28 @@ function __construct() {
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set orders
+     *
+     * @param \Uek\StoreBundle\Entity\Order $orders
+     * @return User
+     */
+    public function setOrders(\Uek\StoreBundle\Entity\Order $orders = null)
+    {
+        $this->orders = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Uek\StoreBundle\Entity\Order 
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

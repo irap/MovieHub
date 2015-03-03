@@ -45,27 +45,33 @@ class Movie {
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $video;
+	protected $videoUri;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
+     * @ORM\ManyToMany(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="movies")
      **/	
-	private $genres;
+	protected $orders;
 
 	/**
-	 * @ORM\Column(type="integer", nullable=false, options={"default" = 0})
-	 */
-	protected $watchNumber = 0;
-	
-	/**
-	 * @ORM\Column(type="integer", nullable=false, options={"default" = 0})
-	 */
-	protected $borrowNumber = 0;
+	 * @ORM\OneToMany(targetEntity="Review", mappedBy="movie")
+	 **/
+	private $reviews;
 	
 	public function __construct() {
-		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
+	public function getReviewNumber()
+	{
+		return $this->reviews->count();
+	}
+
+	public function getOrderNumber()
+	{
+		return $this->orders->count();
+	}
+	
     /**
      * Get id
      *
@@ -169,153 +175,92 @@ class Movie {
     }
 
     /**
-     * Set video
+     * Set videoUri
      *
-     * @param string $video
+     * @param string $videoUri
      * @return Movie
      */
-    public function setVideo($video)
+    public function setVideoUri($videoUri)
     {
-        $this->video = $video;
+        $this->videoUri = $videoUri;
 
         return $this;
     }
 
     /**
-     * Get video
+     * Get videoUri
      *
      * @return string 
      */
-    public function getVideo()
+    public function getVideoUri()
     {
-        return $this->video;
+        return $this->videoUri;
     }
 
     /**
-     * Add genre
+     * Add orders
      *
-     * @param \Uek\MovieBundle\Entity\Genre $genre
+     * @param \Uek\StoreBundle\Entity\Order $orders
      * @return Movie
      */
-    public function addGenre(\Uek\MovieBundle\Entity\Genre $genre)
+    public function addOrder(\Uek\StoreBundle\Entity\Order $orders)
     {
-    	$genre->addMovie($this);
-        $this->genres[] = $genre;
+        $this->orders[] = $orders;
 
         return $this;
     }
 
     /**
-     * Remove genre
+     * Remove orders
      *
-     * @param \Uek\MovieBundle\Entity\Genre $genre
+     * @param \Uek\StoreBundle\Entity\Order $orders
      */
-    public function removeGenre(\Uek\MovieBundle\Entity\Genre $genre)
+    public function removeOrder(\Uek\StoreBundle\Entity\Order $orders)
     {
-        $this->genres->removeElement($genre);
+        $this->orders->removeElement($orders);
     }
 
     /**
-     * Get genres
+     * Get orders
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getGenres()
+    public function getOrders()
     {
-        return $this->genres;
+        return $this->orders;
     }
-    
+
     /**
-     * Get genres as string
+     * Add reviews
      *
-     * @return string
-     */
-    public function getGenresAsString()
-    {
-    	$genre_names = array();
-    	foreach ($this->genres as $genre)
-    	{
-    		$genre_names[] = $genre->getName();
-    	}
-    	
-    	return implode(", ", $genre_names);
-    }
-    
-    /**
-     * Add genres
-     *
-     * @param array of \Uek\MovieBundle\Entity\Genre $genres
+     * @param \Uek\MovieBundle\Entity\Review $reviews
      * @return Movie
      */
-    public function addGenres($array_of_genres)
+    public function addReview(\Uek\MovieBundle\Entity\Review $reviews)
     {
-    	foreach($array_of_genres as $genre)
-    	{
-    		$this->addGenre($genre);
-    	}
+        $this->reviews[] = $reviews;
 
         return $this;
     }
 
     /**
-     * Called on watched movie
+     * Remove reviews
+     *
+     * @param \Uek\MovieBundle\Entity\Review $reviews
      */
-    public function watched()
+    public function removeReview(\Uek\MovieBundle\Entity\Review $reviews)
     {
-    	$this->setWatchNumber($this->watchNumber + 1);
+        $this->reviews->removeElement($reviews);
     }
 
     /**
-     * Called on borrowed movie
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function borrowed()
+    public function getReviews()
     {
-    	$this->setBorrowedNumber($this->borrowNumber + 1);
+        return $this->reviews;
     }
     
-    /**
-     * Set watchNumber
-     *
-     * @param integer $watchNumber
-     * @return Movie
-     */
-    public function setWatchNumber($watchNumber)
-    {
-        $this->watchNumber = $watchNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get watchNumber
-     *
-     * @return integer 
-     */
-    public function getWatchNumber()
-    {
-        return $this->watchNumber;
-    }
-
-    /**
-     * Set borrowNumber
-     *
-     * @param integer $borrowNumber
-     * @return Movie
-     */
-    public function setBorrowNumber($borrowNumber)
-    {
-        $this->borrowNumber = $borrowNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get borrowNumber
-     *
-     * @return integer 
-     */
-    public function getBorrowNumber()
-    {
-        return $this->borrowNumber;
-    }
 }
