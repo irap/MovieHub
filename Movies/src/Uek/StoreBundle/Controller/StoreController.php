@@ -13,7 +13,7 @@ class StoreController extends Controller
 	public function showAllOrdersAction()
     {
     	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-    		return $this->render('UekStoreBundle:Store:please.login.html.twig');
+    		return $this->render('UekUserBundle:Security:please.login.html.twig');
     	}
     	
     	$user= $this->get('security.context')->getToken()->getUser();

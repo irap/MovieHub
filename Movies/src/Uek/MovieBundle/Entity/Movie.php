@@ -46,9 +46,14 @@ class Movie {
 	 * @ORM\Column(type="string")
 	 */
 	protected $videoUri;
+
+	/**
+	 * @ORM\Column(type="float", precision=4, scale=2, nullable=false, options={"unsigned":true, "default":0})
+	 */
+	protected $price;
 	
     /**
-     * @ORM\ManyToMany(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="movies")
+     * @ORM\ManyToMany(targetEntity="Uek\StoreBundle\Entity\Order", inversedBy="movies")
      **/	
 	protected $orders;
 
@@ -206,7 +211,6 @@ class Movie {
     public function addOrder(\Uek\StoreBundle\Entity\Order $orders)
     {
         $this->orders[] = $orders;
-
         return $this;
     }
 
@@ -233,24 +237,23 @@ class Movie {
     /**
      * Add reviews
      *
-     * @param \Uek\MovieBundle\Entity\Review $reviews
+     * @param \Uek\MovieBundle\Entity\Review $review
      * @return Movie
      */
-    public function addReview(\Uek\MovieBundle\Entity\Review $reviews)
+    public function addReview(\Uek\MovieBundle\Entity\Review $review)
     {
-        $this->reviews[] = $reviews;
-
+        $this->reviews[] = $review;
         return $this;
     }
 
     /**
      * Remove reviews
      *
-     * @param \Uek\MovieBundle\Entity\Review $reviews
+     * @param \Uek\MovieBundle\Entity\Review $review
      */
-    public function removeReview(\Uek\MovieBundle\Entity\Review $reviews)
+    public function removeReview(\Uek\MovieBundle\Entity\Review $review)
     {
-        $this->reviews->removeElement($reviews);
+        $this->reviews->removeElement($review);
     }
 
     /**
@@ -263,4 +266,27 @@ class Movie {
         return $this->reviews;
     }
     
+
+    /**
+     * Set price
+     *
+     * @param \float $price
+     * @return Movie
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return \float 
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
 }

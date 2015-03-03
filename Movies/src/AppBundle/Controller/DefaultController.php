@@ -17,7 +17,7 @@ class DefaultController extends Controller
     	$movies = $em->getRepository('UekMovieBundle:Movie')->findAll();
     	$mostBorrowedMovies = $em->getRepository('UekMovieBundle:Movie')->findMostBorrowed(5);
     	$mostReviewedMovies = $em->getRepository('UekMovieBundle:Movie')->findMostReviewed(5);
-    	
+    	 
         return $this->render('default/index.html.twig', array(
         		'movies' => $movies,
         		'mostBorrowedMovies' => $mostBorrowedMovies,

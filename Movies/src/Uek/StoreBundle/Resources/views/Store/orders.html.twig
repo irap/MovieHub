@@ -32,13 +32,15 @@ src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></scrip
           <tr>  
             <th>Order #</th>  
             <th>Date</th>  
+            <th>Status</th>  
           </tr>  
         </thead>  
         <tbody>  
 			{% for order in orders %}
         		<tr>  
             		<td>{{ order.getId() }}</td>  
-            		<td>{{ order.getCreatedAt() }}</td>  
+            		<td>{{ order.getCreatedAt().format('Y-m-d H:i') }}</td>  
+            		<td>{{ order.getStatus().getName() }}</td>  
           		</tr>  
 			{% endfor %}
         </tbody>  

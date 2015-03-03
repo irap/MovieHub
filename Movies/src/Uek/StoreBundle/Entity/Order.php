@@ -17,7 +17,7 @@ class Order {
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
+ 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
 
@@ -27,14 +27,19 @@ class Order {
 	private $createdAt;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="orders")
+	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="orders", cascade={"persist", "remove"})
 	 **/
 	private $user;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="Uek\MovieBundle\Entity\Movie", inversedBy="orders")
+	 * @ORM\ManyToMany(targetEntity="Uek\MovieBundle\Entity\Movie", mappedBy="orders")
 	 **/
 	private $movies;
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Uek\StoreBundle\Entity\OrderStatus", inversedBy="orders")
+	 **/
+	private $status;
 	
 	
 	function __construct() {
@@ -45,7 +50,7 @@ class Order {
 	 */
 	public function setCreatedAtValue()
 	{
-		$this->createdAt = new \DateTime();
+		$this->createdAt = new \DateTime('NOW');
 	}
 	
     /**
@@ -61,12 +66,13 @@ class Order {
     /**
      * Set user
      *
-     * @param \Uek\StoreBundle\Entity\User $user
+     * @param \Uek\UserBundle\Entity\User $user
      * @return Order
      */
-    public function setUser(\Uek\StoreBundle\Entity\User $user = null)
+    public function setUser(\Uek\UserBundle\Entity\User $user)
     {
         $this->user = $user;
+        $user->addOrder($this);
 
         return $this;
     }
@@ -74,7 +80,7 @@ class Order {
     /**
      * Get user
      *
-     * @return \Uek\StoreBundle\Entity\User 
+     * @return \Uek\UserBundle\Entity\User 
      */
     public function getUser()
     {
@@ -107,12 +113,13 @@ class Order {
     /**
      * Add movies
      *
-     * @param \Uek\UserBundle\Entity\Movie $movies
+     * @param \Uek\MovieBundle\Entity\Movie $movie
      * @return Order
      */
-    public function addMovie(\Uek\UserBundle\Entity\Movie $movies)
+    public function addMovie(\Uek\MovieBundle\Entity\Movie $movie)
     {
-        $this->movies[] = $movies;
+        $this->movies[] = $movie;
+        $movie->addOrder($this);
 
         return $this;
     }
@@ -120,11 +127,12 @@ class Order {
     /**
      * Remove movies
      *
-     * @param \Uek\UserBundle\Entity\Movie $movies
+     * @param \Uek\MovieBundle\Entity\Movie $movie
      */
-    public function removeMovie(\Uek\UserBundle\Entity\Movie $movies)
+    public function removeMovie(\Uek\MovieBundle\Entity\Movie $movie)
     {
         $this->movies->removeElement($movies);
+        $movie->removeOrder($this);
     }
 
     /**
@@ -135,5 +143,28 @@ class Order {
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Uek\StoreBundle\Entity\OrderStatus $status
+     * @return Order
+     */
+    public function setStatus(\Uek\StoreBundle\Entity\OrderStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Uek\StoreBundle\Entity\OrderStatus 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

@@ -17,28 +17,28 @@ class MovieRepository extends EntityRepository
 	public function findMostBorrowed($count = 1)
 	{
 		$qb = $this->createQueryBuilder('m')
-		->addSelect('COUNT(o) AS HIDDEN orderCount')
+		->addSelect('COUNT(o.id) AS HIDDEN orderCount')
 		->leftJoin('m.orders', 'o')
 		->groupBy('m')
+		->having('orderCount > 0')
 		->orderBy('orderCount', 'DESC')
 		->setMaxResults($count);
 		
 		$moives = $qb->getQuery()->getResult();
-		
 		return $moives;
 	}
 
 	public function findMostReviewed($count = 1)
 	{
 		$qb = $this->createQueryBuilder('m')
-		->addSelect('COUNT(r) AS HIDDEN reviewCount')
+		->addSelect('COUNT(r.id) AS HIDDEN reviewCount')
 		->leftJoin('m.reviews', 'r')
 		->groupBy('m')
+		->having('reviewCount > 0')
 		->orderBy('reviewCount', 'DESC')
 		->setMaxResults($count);
-		
+
 		$moives = $qb->getQuery()->getResult();
-		
 		return $moives;
 	}
 	

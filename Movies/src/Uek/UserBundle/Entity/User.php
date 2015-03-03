@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Uek\UserBundle\Entity\User
  * 
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Uek\UserBundle\Entity\UserRepository")
  * @ORM\Table(name="uek_user")* 
  * 
  * @ORM\HasLifecycleCallbacks
@@ -29,7 +29,13 @@ class User extends BaseUser
 	protected $id;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="user")
+	 *
+	 * @ORM\OneToMany(targetEntity="Uek\MovieBundle\Entity\Review", mappedBy="user")
+	 */
+	private $reviews;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="user")
 	 **/
 	protected $orders;
 	
@@ -70,22 +76,65 @@ function __construct() {
     }
 
     /**
-     * Set orders
+     * Add reviews
      *
-     * @param \Uek\StoreBundle\Entity\Order $orders
+     * @param \Uek\MovieBundle\Entity\Review $reviews
      * @return User
      */
-    public function setOrders(\Uek\StoreBundle\Entity\Order $orders = null)
+    public function addReview(\Uek\MovieBundle\Entity\Review $reviews)
     {
-        $this->orders = $orders;
+        $this->reviews[] = $reviews;
 
         return $this;
     }
 
     /**
+     * Remove reviews
+     *
+     * @param \Uek\MovieBundle\Entity\Review $reviews
+     */
+    public function removeReview(\Uek\MovieBundle\Entity\Review $reviews)
+    {
+        $this->reviews->removeElement($reviews);
+    }
+
+    /**
+     * Get reviews
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReviews()
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \Uek\StoreBundle\Entity\Order $orders
+     * @return User
+     */
+    public function addOrder(\Uek\StoreBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \Uek\StoreBundle\Entity\Order $orders
+     */
+    public function removeOrder(\Uek\StoreBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
      * Get orders
      *
-     * @return \Uek\StoreBundle\Entity\Order 
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getOrders()
     {

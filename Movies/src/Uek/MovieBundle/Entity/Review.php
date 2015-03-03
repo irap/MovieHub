@@ -17,22 +17,41 @@ class Review {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+
+	/**
+	 * @ORM\Column(type="date")
+	 */
+	private $createdAt;
 	
 	/**
-	 * @ORM\Column(type="string", nullable=false)
+	 *
+	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="reviews",cascade={"persist", "remove"})
+	 */
+	private $user;
+	
+	/**
+	 * @ORM\Column(type="string")
 	 */
 	protected $reviewText;
 	
 	/**
 	 * Inverse Side
 	 *
-	 * @ORM\ManyToOne(targetEntity="Movie", inversedBy="reviews")
+	 * @ORM\ManyToOne(targetEntity="Movie", inversedBy="reviews", cascade={"persist", "remove"})
 	 */
 	private $movie;
-	
+
     public  function __construct() {
 	}
 
+	/**
+	 * @ORM\PrePersist
+	 */
+	public function setCreatedAtValue()
+	{
+		$this->createdAt = new \DateTime('NOW');
+	}
+	
     /**
      * Get id
      *
@@ -72,9 +91,10 @@ class Review {
      * @param \Uek\MovieBundle\Entity\Movie $movie
      * @return Review
      */
-    public function setMovie(\Uek\MovieBundle\Entity\Movie $movie = null)
+    public function setMovie(\Uek\MovieBundle\Entity\Movie $movie)
     {
         $this->movie = $movie;
+        $movie->addReview($this);
 
         return $this;
     }
@@ -87,5 +107,52 @@ class Review {
     public function getMovie()
     {
         return $this->movie;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Uek\UserBundle\Entity\User $user
+     * @return Review
+     */
+    public function setUser(\Uek\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+        $user->addReview($this);
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Uek\UserBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Review
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }
