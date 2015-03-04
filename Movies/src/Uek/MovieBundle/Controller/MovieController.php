@@ -18,10 +18,17 @@ class MovieController extends Controller
      */
     public function movieAction($id)
     {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$user = $this->get('security.token_storage')->getToken()->getUser();
+    	
+//     	$username= $this->get('security.context')->getToken()->getUser();
+//     	$user = $em->getRepository('UekUserBundle:User')->findOneByUsername($username);
+    	 
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
-    	return $this->render('UekMovieBundle:Movie:movie.html.twig', array('movie' => $movie));
+    	return $this->render('UekMovieBundle:Movie:movie.html.twig', array('movie' => $movie, 'user' => $user));
     }
 
     /**
@@ -48,6 +55,10 @@ class MovieController extends Controller
      */
     public function addMovieReviewAction($id)
     {
+    	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+    		return $this->render('UekUserBundle:Security:please.login.html.twig');
+    	}
+    	
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
@@ -67,6 +78,10 @@ class MovieController extends Controller
      */
     public function borrowMovieAction($id)
     {
+    	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+    		return $this->render('UekUserBundle:Security:please.login.html.twig');
+    	}
+    	 
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);

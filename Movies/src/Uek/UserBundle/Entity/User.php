@@ -42,6 +42,9 @@ class User extends BaseUser
 	public 
 function __construct() {
 	parent::__construct ();
+	$this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
+	$this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+	
 }
 
 	/**

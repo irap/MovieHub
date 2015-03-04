@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="container-fluid">
+
+<div class="col-xs-4">
+<h4>Borrowed movies</h4>
+<div class="container-fluid">
+<div class="col-xs-12 ">
+  <form role="form">
+    <label class="radio-inline">
+      <a href="/borrowed"><input type="radio" name="genre_0" {% if selected_id == 0 %}checked{% endif %}></a>All genres
+    </label>
+    {% for genre in genres %}
+    <label class="radio-inline">
+      <a href="/borrowed/filter/by/genre/{{ genre.getId() }}"><input type="radio" name="genre_{{ genre.getId() }}" {% if selected_id == genre.getId() %}checked{% endif %}></a>{{ genre.getName() }}
+    </label>
+    {% endfor %}
+  </form>
+</div>  
+</div>  
+  
+{% for movie in movies %}
+	<li class="media">
+		<div class="media-left">
+			<a href="/movie/{{ movie.getId() }}">
+				<img class="media-object" width="118" height="152" src="{{ movie.getCoverArt() }}" alt="">
+			</a> 
+		</div>
+		<div class="media-body">
+		<a href="/movie/{{ movie.getId() }}">
+		<h4 class="media-heading">{{ movie.getTitle() }}</h4>
+		</a>
+		<p><b>Genre: </b>{{ movie.getGenresNames() }}</p>
+		<a href="/movie/{{ movie.getId() }}/watch"
+			class="btn btn-default btn-sm" role="button">Watch</a>
+		
+		</div>
+	</li>
+{% endfor %}
+</div>
+
+</div>
+{% endblock %}
+
+

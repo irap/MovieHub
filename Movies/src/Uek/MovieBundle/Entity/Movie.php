@@ -48,6 +48,11 @@ class Movie {
 	protected $videoUri;
 
 	/**
+	 * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
+	 **/
+	protected $genres;
+	
+	/**
 	 * @ORM\Column(type="float", precision=4, scale=2, nullable=false, options={"unsigned":true, "default":0})
 	 */
 	protected $price;
@@ -65,8 +70,60 @@ class Movie {
 	public function __construct() {
 		$this->orders = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->reviews = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
+	public function getGenresNames()
+	{
+		$gnames = array();
+		foreach ($this->genres as $genre)
+		{
+			$gnames[] = $genre->getName();
+		}
+		return implode(", ", $gnames);
+	}
+	
+	public function isOrderedByUser($user)
+	{
+		foreach($this->orders as $order)
+		{
+			if ($order->getUser() == $user)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public function isPaidByUser($user)
+	{
+		$paid_orders = $this->getPaidOrders();
+		foreach($paid_orders as $order)
+		{
+			if ($order->getUser() == $user)
+			{
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
+	public function getPaidOrders()
+	{
+		$paid_orders = array();
+		foreach($this->orders as $order)
+		{
+			if ($order->isPaid())
+			{
+				$paid_orders[] = $order;
+			}
+		}
+	
+		return $paid_orders;
+	}
+	
 	public function getReviewNumber()
 	{
 		return $this->reviews->count();
@@ -75,6 +132,11 @@ class Movie {
 	public function getOrderNumber()
 	{
 		return $this->orders->count();
+	}
+
+	public function getPaidOrderNumber()
+	{
+		return count($this->getPaidOrders());
 	}
 	
     /**
@@ -288,5 +350,39 @@ class Movie {
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Add genres
+     *
+     * @param \Uek\MovieBundle\Entity\Genre $genres
+     * @return Movie
+     */
+    public function addGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    {
+        $this->genres[] = $genres;
+        $genres->addMovie($this);
+        return $this;
+    }
+
+    /**
+     * Remove genres
+     *
+     * @param \Uek\MovieBundle\Entity\Genre $genres
+     */
+    public function removeGenre(\Uek\MovieBundle\Entity\Genre $genres)
+    {
+        $this->genres->removeElement($genres);
+        $genres->removeMovie($this);
+    }
+
+    /**
+     * Get genres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGenres()
+    {
+        return $this->genres;
     }
 }

@@ -25,7 +25,7 @@ class Review {
 	
 	/**
 	 *
-	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="reviews",cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="reviews")
 	 */
 	private $user;
 	
@@ -37,7 +37,7 @@ class Review {
 	/**
 	 * Inverse Side
 	 *
-	 * @ORM\ManyToOne(targetEntity="Movie", inversedBy="reviews", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Movie", inversedBy="reviews")
 	 */
 	private $movie;
 

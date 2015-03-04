@@ -2,8 +2,24 @@
 
 {% block content %}
 <div class="container-fluid">
+
 <div class="col-xs-4">
 <h4>Available movies</h4>
+<div class="container-fluid">
+<div class="col-xs-12 ">
+  <form role="form">
+    <label class="radio-inline">
+      <a href="/"><input type="radio" name="genre_0" {% if selected_id == 0 %}checked{% endif %}></a>All genres
+    </label>
+    {% for genre in genres %}
+    <label class="radio-inline">
+      <a href="/filter/by/genre/{{ genre.getId() }}"><input type="radio" name="genre_{{ genre.getId() }}" {% if selected_id == genre.getId() %}checked{% endif %}></a>{{ genre.getName() }}
+    </label>
+    {% endfor %}
+  </form>
+</div>  
+</div>  
+  
 {% for movie in movies %}
 	<li class="media">
 		<div class="media-left">
@@ -15,13 +31,14 @@
 		<a href="/movie/{{ movie.getId() }}">
 		<h4 class="media-heading">{{ movie.getTitle() }}</h4>
 		</a>
-		<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getOrderNumber() }}</small></p> 
+		<p><b>Genre: </b>{{ movie.getGenresNames() }}</p>
+		<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getPaidOrderNumber() }}</small></p> 
 		</div>
 	</li>
 {% endfor %}
 </div>
 
-<div class="col-xs-4">
+<div class="col-xs-3">
 <h4>Popular movies</h4>
 <ul>
 {% for movie in mostBorrowedMovies %}
@@ -30,7 +47,7 @@
 </ul>
 </div>
 
-<div class="col-xs-4">
+<div class="col-xs-3">
 <h4>Most-reviewed films</h4>
 <ul>
 {% for movie in mostReviewedMovies %}

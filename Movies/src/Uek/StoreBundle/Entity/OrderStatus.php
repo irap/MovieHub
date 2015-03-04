@@ -36,6 +36,7 @@ class OrderStatus {
 	private $orders;
 
 	function __construct() {
+		$this->orders = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
     /**

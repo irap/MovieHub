@@ -15,18 +15,24 @@
 			<div class="col-6 col-sm-6 col-lg-4">
 			<p> {{ movie.getDescription() }}</p>
 			<div>
+			<p><b>Genre: </b>{{ movie.getGenresNames() }}</p>
 			</div>
 			<p><b>Actors:</b> {{ movie.getActors() }}</p>
-			<p><b>Price:</b> ${{ movie.getPrice() }}</p>
-			<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getOrderNumber() }}</small></p> 
+			<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getPaidOrderNumber() }}</small></p> 
+			<p><b>Price:</b> ${{ movie.getPrice() }}
+			{% if movie.isPaidByUser(user) %}
+				You have alreay bought this movie!
+			{% else %}
+				<a href="/movie/{{ movie.getId() }}/borrow"
+					class="btn btn-default btn-sm" role="button">Borrow</a>
+			{% endif %}
+			</p>
 			
 			<p>
 				<a href="/movie/{{ movie.getId() }}/watch"
-					class="btn btn-default btn-sm" role="button">Watch</a>
+					class="btn btn-default btn-sm" role="button" {% if not  movie.isPaidByUser(user) %}disabled {% endif %}>Watch</a>
 				<a href="/movie/{{ movie.getId() }}/review"
 					class="btn btn-default btn-sm" role="button">Add Review</a>
-				<a href="/movie/{{ movie.getId() }}/borrow"
-					class="btn btn-default btn-sm" role="button">Borrow</a>
 			</p>
 		</div>
 	</div>

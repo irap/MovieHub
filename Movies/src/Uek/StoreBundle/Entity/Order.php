@@ -27,7 +27,7 @@ class Order {
 	private $createdAt;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="orders", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="orders")
 	 **/
 	private $user;
 
@@ -43,6 +43,13 @@ class Order {
 	
 	
 	function __construct() {
+		$this->movies = new \Doctrine\Common\Collections\ArrayCollection();
+		
+	}
+	
+	public function isPaid()
+	{
+		return $this->status->getId() == OrderStatus::PAID;
 	}
 
 	/**
