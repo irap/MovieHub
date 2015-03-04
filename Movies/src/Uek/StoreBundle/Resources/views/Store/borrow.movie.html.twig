@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %} 
+
+{% block content %}
+<div class="container-fluid">
+<h4 class="media-heading">Please confirm order</a></h4>
+{# <h5>Order # {{ order.getId() }}</h5>#}
+<div>
+<table id="orderTable">  
+        <thead>  
+          <tr>  
+            <th>Movie</th>  
+            <th>Price</th>  
+          </tr>  
+        </thead>  
+        <tbody>  
+		{% for movie in order.getMovies() %}
+       		<tr>  
+            		<td>{{ movie.getTitle() }}</td>  
+            		<td>{{ movie.getPrice() }}</td>  
+          	</tr>  
+		{% endfor %}
+       		<tr>  
+            		<td>Total sum</td>  
+            		<td>{{ order.getTotalSUm() }}</td>  
+          	</tr>  
+		</tbody>  
+</table>  
+<div>
+{{ form_start(form) }}
+{{ form_widget(form.cancel) }}
+{{ form_widget(form.confirm) }}
+{{ form_end(form) }}
+</div>
+{% endblock content %}
+

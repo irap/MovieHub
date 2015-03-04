@@ -23,7 +23,7 @@
 			{% if movie.isPaidByUser(user) %}
 				You have alreay bought this movie!
 			{% else %}
-				<a href="/movie/{{ movie.getId() }}/borrow"
+				<a href="/store/order/movie/{{ movie.getId() }}"
 					class="btn btn-default btn-sm" role="button">Borrow</a>
 			{% endif %}
 			</p>
@@ -31,9 +31,18 @@
 			<p>
 				<a href="/movie/{{ movie.getId() }}/watch"
 					class="btn btn-default btn-sm" role="button" {% if not  movie.isPaidByUser(user) %}disabled {% endif %}>Watch</a>
-				<a href="/movie/{{ movie.getId() }}/review"
+				<a href="/movie/{{ movie.getId() }}/add/review"
 					class="btn btn-default btn-sm" role="button">Add Review</a>
 			</p>
+			<div class="container-fluid">
+			<p>Your reviews of this movie, added at:</p>
+				<ul>
+				{% for review in movie.getReviews() %}
+					<li><a href="/movie/review/{{ review.getId() }}">{{ review.getCreatedAt().format('Y-m-d h:i') }}</a></li>
+				{% endfor %}
+				</ul>
+				<p><a href="/movie/{{ movie.getId() }}/all/reviews"><small>All reviews</small></a></p>
+			</div>
 		</div>
 	</div>
 

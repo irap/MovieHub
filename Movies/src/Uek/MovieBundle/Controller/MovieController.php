@@ -6,6 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Uek\MovieBundle\Entity\Movie;
+use Uek\MovieBundle\Entity\Review;
+use Uek\StoreBundle\Entity\OrderStatus;
+use Uek\StoreBundle\Entity\Order;
 
 
 // /**
@@ -19,12 +22,8 @@ class MovieController extends Controller
     public function movieAction($id)
     {
     	$em = $this->getDoctrine()->getManager();
-    	
     	$user = $this->get('security.token_storage')->getToken()->getUser();
     	
-//     	$username= $this->get('security.context')->getToken()->getUser();
-//     	$user = $em->getRepository('UekUserBundle:User')->findOneByUsername($username);
-    	 
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
@@ -51,21 +50,46 @@ class MovieController extends Controller
     }
 
     /**
-     * @Route("/movie/{id}/review", name="_add_movie_review")
+     * @Route("/movie/{id}/add/review", name="_add_movie_review")
      */
     public function addMovieReviewAction($id)
     {
     	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
     		return $this->render('UekUserBundle:Security:please.login.html.twig');
     	}
-    	
+
+    	$em = $this->getDoctrine()->getManager();
+    	$user = $this->get('security.token_storage')->getToken()->getUser();
+    	 
     	$movie = $this->getDoctrine()
     	->getRepository('UekMovieBundle:Movie')
     	->findOneById($id);
     
     	if ($movie)
     	{
-    		return $this->render('UekMovieBundle:Movie:review.movie.html.twig', array('movie' => $movie));
+    		// create a task and give it some dummy data for this example
+    		$review = new Review();
+			$review->setUser ( $user );
+			$review->setMovie ( $movie );
+    		
+    		$form = $this->createFormBuilder($review)
+    		->add('reviewText', 'textarea', array('attr' => array('cols' => '50', 'rows' => '5')))
+    		->add('submit', 'submit', array('label' => 'Submit Review'))
+    		->getForm();
+
+    		$form->handleRequest($this->getRequest());
+    		
+    		if ($form->isValid()) {
+    			// perform some action, such as saving the task to the database
+    			
+				$em->persist ( $review );
+    			$em->flush();
+    			
+    			return $this->redirect($this->generateUrl('_movie', ['id' => $movie->getId()]));
+    		}
+    		
+    		return $this->render('UekMovieBundle:Movie:add.review.movie.html.twig',
+    				array('movie' => $movie, 'form' => $form->createView()));
     	}
     	else
     	{
@@ -74,25 +98,36 @@ class MovieController extends Controller
     }
 
     /**
-     * @Route("/movie/{id}/borrow", name="_borrow_movie")
+     * @Route("/movie/review/{id}", name="_show_movie_review")
      */
-    public function borrowMovieAction($id)
+    public function showReviewAction($id)
     {
-    	if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-    		return $this->render('UekUserBundle:Security:please.login.html.twig');
-    	}
-    	 
-    	$movie = $this->getDoctrine()
-    	->getRepository('UekMovieBundle:Movie')
+    	$review = $this->getDoctrine()
+    	->getRepository('UekMovieBundle:Review')
     	->findOneById($id);
     
-    	if ($movie)
+    	if ($review)
     	{
-    		return $this->render('UekMovieBundle:Movie:borrow.movie.html.twig', array('movie' => $movie));
+    		return $this->render('UekMovieBundle:Movie:view.review.movie.html.twig',
+    				array('review' => $review));
     	}
     	else
     	{
     		return $this->redirect($this->generateUrl('_homepage'));
     	}
     }
+
+    /**
+     * @Route("/movie/{id}/all/reviews", name="_show_all_movie_review")
+     */
+    public function showAllReviewsAction($id)
+    {
+    	$movie = $this->getDoctrine()
+    	->getRepository('UekMovieBundle:Movie')
+    	->findOneById($id);
+    	 
+   		return $this->render('UekMovieBundle:Movie:all.reviews.movie.html.twig',
+    				array('movie' => $movie));
+    }
+    
 }

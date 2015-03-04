@@ -41,10 +41,14 @@ class Order {
 	 **/
 	private $status;
 	
-	
+	/**
+	 * @ORM\Column(type="float", precision=4, scale=2, nullable=false, options={"unsigned":true, "default":0})
+	 */
+	protected $totalSum;
+
 	function __construct() {
-		$this->movies = new \Doctrine\Common\Collections\ArrayCollection();
-		
+		$this->movies = new \Doctrine\Common\Collections\ArrayCollection(); 
+		$totalSum = 0;
 	}
 	
 	public function isPaid()
@@ -127,6 +131,8 @@ class Order {
     {
         $this->movies[] = $movie;
         $movie->addOrder($this);
+        
+        $this->totalSum += $movie->getPrice();
 
         return $this;
     }
@@ -173,5 +179,28 @@ class Order {
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set totalSum
+     *
+     * @param float $totalSum
+     * @return Order
+     */
+    public function setTotalSum($totalSum)
+    {
+        $this->totalSum = $totalSum;
+
+        return $this;
+    }
+
+    /**
+     * Get totalSum
+     *
+     * @return float 
+     */
+    public function getTotalSum()
+    {
+        return $this->totalSum;
     }
 }
