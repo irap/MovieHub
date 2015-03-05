@@ -93,7 +93,7 @@ class DemoController extends Controller
 				}
 				else 
 				{
-					$this->paidOrderAction($movie->getId());
+					$this->addPaidOrderAction($movie->getId());
 				}
 			}
 		}

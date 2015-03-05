@@ -8,7 +8,7 @@ How to setup project on Linux (Debian)
  apt-get install curl -y
 
 2) Donwload MovieS
-git clone -b Issue2-MovieBundle "https://uecstudent@bitbucket.org/uecstudent/moviehub.git" MovieS
+git clone -b master "https://uecstudent@bitbucket.org/uecstudent/moviehub.git" MovieS
 
 3) Switch to symfony2 project dir
 cd MovieS/Movies
@@ -25,5 +25,8 @@ php app/console doctrine:schema:create
 7) Run application (web site)
 php app/console server:run
 
-8) Create fill the demo information ot our data base
-gnome-open http://127.0.0.1:8000/movies/demo/create
+8) Sing in to the MovieS
+gnome-open http://127.0.0.1:8000/register
+
+9) Create the demo information in our data base, in browser:
+http://127.0.0.1:8000/demo/create
