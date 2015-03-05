@@ -1,13 +1,13 @@
 # This file is a "template" of what your parameters.yml file should look like
 parameters:
-    database_driver:   pdo_sqlite
-    database_host:     127.0.0.1
+    database_driver:   pdo_mysql
+    database_host:     10.254.94.2
     database_port:     ~
-    database_name:     uek_data
-    database_user:     root
-    database_password: ~
+    database_name:     s175548
+    database_user:     s175548 
+    database_password: rNdBd8jm
     # You should uncomment this if you want use pdo_sqlite
-    database_path: "%kernel.root_dir%/uek_data.db"
+    #database_path: "%kernel.root_dir%/uek_data.db"
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
