@@ -9,7 +9,7 @@ use Uek\MovieBundle\Movie;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="_homepage")
+     * @Route("/", name="uek_homepage")
      */
     public function indexAction()
     {
@@ -57,7 +57,7 @@ class DefaultController extends Controller
     	$genre = $em->getRepository('UekMovieBundle:Genre')->findOneById($id);
     	if ($genre == null)
     	{
-    		return $this->redirect($this->generateUrl('_homepage'));
+    		return $this->redirect($this->generateUrl('uek_homepage'));
     	}
     	
     	$genres = $em->getRepository('UekMovieBundle:Genre')->findAll();

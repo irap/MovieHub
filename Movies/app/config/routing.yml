@@ -1,6 +1,6 @@
 uek_store:
     resource: "@UekStoreBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /store
 
 uek_movie:
     resource: "@UekMovieBundle/Resources/config/routing.yml"
@@ -9,7 +9,7 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 app:
-    resource: @AppBundle/Controller/
+    resource: "@AppBundle/Controller/DefaultController.php"
     type:     annotation
 
 demo:
