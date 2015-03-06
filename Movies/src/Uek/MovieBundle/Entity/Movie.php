@@ -48,7 +48,7 @@ class Movie {
 	protected $videoUri;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movies")
+	 * @ORM\ManyToMany(targetEntity="Genre", mappedBy="movies")
 	 **/
 	protected $genres;
 	

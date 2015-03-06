@@ -7,16 +7,9 @@
 <h4>Borrowed movies</h4>
 <div class="container-fluid">
 <div class="col-xs-12 ">
-  <form role="form">
-    <label class="radio-inline">
-      <a href="{{ path('uek_borrowed') }}"><input type="radio" name="genre_0" {% if selected_id == 0 %}checked{% endif %}></a>All genres
-    </label>
-    {% for genre in genres %}
-    <label class="radio-inline">
-      <a href="{{ path('uek_borrowed_filter_by_genre', {'id': genre.getId()}) }}"><input type="radio" name="genre_{{ genre.getId() }}" {% if selected_id == genre.getId() %}checked{% endif %}></a>{{ genre.getName() }}
-    </label>
-    {% endfor %}
-  </form>
+{{ form_start(filter_form) }}
+{{ form_widget(filter_form.genre_choice) }} <small>{{ form_widget(filter_form.filter) }}</small>
+{{ form_end(filter_form) }}
 </div>  
 </div>  
   

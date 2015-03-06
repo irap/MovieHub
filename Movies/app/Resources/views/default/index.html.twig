@@ -7,21 +7,16 @@
 <h4>Available movies</h4>
 <div class="container-fluid">
 <div class="col-xs-12 ">
-  <form role="form">
-    <label class="radio-inline">
-      <a href="{{ path('uek_homepage') }}"><input type="radio" name="genre_0" {% if selected_id == 0 %}checked{% endif %}></a>All genres
-    </label>
-    {% for genre in genres %}
-    <label class="radio-inline">
-      <a href="{{ path('uek_filter_by_genre', {'id': genre.getId()}) }}"><input type="radio" name="genre_{{ genre.getId() }}" {% if selected_id == genre.getId() %}checked{% endif %}></a>{{ genre.getName() }}
-    </label>
-    {% endfor %}
-  </form>
+
+{{ form_start(filter_form) }}
+{{ form_widget(filter_form.genre_choice) }} <small>{{ form_widget(filter_form.filter) }}</small>
+{{ form_end(filter_form) }}
+
 </div>  
 </div>  
   
 {% for movie in movies %}
-	<li class="media">
+	<div class="media">
 		<div class="media-left">
 			<a href="{{ path('uek_movie', {'id': movie.getId()}) }}">
 				<img class="media-object" width="118" height="152" src="{{ movie.getCoverArt() }}" alt="">
@@ -34,7 +29,7 @@
 		<p><b>Genre: </b>{{ movie.getGenresNames() }}</p>
 		<p><small>reviewed: {{ movie.getReviewNumber() }}  borrowed: {{ movie.getPaidOrderNumber() }}</small></p> 
 		</div>
-	</li>
+	</div>
 {% endfor %}
 </div>
 

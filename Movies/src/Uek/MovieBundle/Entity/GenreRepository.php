@@ -12,4 +12,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class GenreRepository extends EntityRepository
 {
+	
+	public function findOneByName($gname)
+	{
+		$qb = $this->createQueryBuilder('g')
+		->where('g.name = :gname')
+		->setMaxResults(1)
+		->setParameters(array('gname' => $gname));
+		
+		$genres = $qb->getQuery()->getResult();
+		if (count($genres))
+		{
+			return $genres[0];
+		}
+		else 
+		{
+			return null;
+		}
+	}
 }

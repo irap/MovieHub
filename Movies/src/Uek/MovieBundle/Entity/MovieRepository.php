@@ -70,6 +70,7 @@ class MovieRepository extends EntityRepository
 	public function findBorrowedByUserFilteredByGenre($user, $genre)
 	{
 		$qb = $this->createQueryBuilder('m')
+		->addSelect('COUNT(o.id) AS HIDDEN orderCount')
 		->leftJoin('m.orders', 'o')
 		->leftJoin('o.user', 'u')
 		->leftJoin('m.genres', 'g')
