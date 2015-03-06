@@ -31,7 +31,7 @@
 			<p>
 				<a href="{{ path('uek_watch_movie', {'id': movie.getId()}) }}"
 					class="btn btn-default btn-sm" role="button" {% if not  movie.isPaidByUser(user) %}disabled {% endif %}>Watch</a>
-				<a href="{{ path('uek_movie', {'id': movie.getId()}) }}"
+				<a href="{{ path('uek_add_movie_review', {'id': movie.getId()}) }}"
 					class="btn btn-default btn-sm" role="button">Add Review</a>
 			</p>
 			<div class="container-fluid">
