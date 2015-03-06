@@ -38,7 +38,7 @@
 			<p>Your reviews of this movie, added at:</p>
 				<ul>
 				{% for review in movie.getReviews() %}
-					<li><a href="{{ path('uek_review', {'id': review.getId()}) }}">{{ review.getCreatedAt().format('Y-m-d h:i') }}</a></li>
+					<li><a href="{{ path('uek_show_review', {'id': review.getId()}) }}">{{ review.getCreatedAt().format('Y-m-d h:i') }}</a></li>
 				{% endfor %}
 				</ul>
 				<p><a href="{{ path('uek_show_all_movie_reviews', {'id': movie.getId()}) }}"><small>All reviews</small></a></p>
