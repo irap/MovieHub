@@ -28,7 +28,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/borrowed", name="_borrowed")
+     * @Route("/borrowed", name="uek_borrowed")
      */
     public function borrowedAction()
     {
@@ -49,7 +49,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/filter/by/genre/{id}", name="_filter_by_genre")
+     * @Route("/filter/by/genre/{id}", name="uek_filter_by_genre")
      */
     public function rrowedByGenreAction($id)
     {
@@ -74,7 +74,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/borrowed/filter/by/genre/{id}", name="_borrowed_filter_by_genre")
+     * @Route("/borrowed/filter/by/genre/{id}", name="uek_borrowed_filter_by_genre")
      */
     public function filterBorrowedByGenreAction($id)
     {
@@ -86,7 +86,7 @@ class DefaultController extends Controller
     	$genre = $em->getRepository('UekMovieBundle:Genre')->findOneById($id);
     	if ($genre == null)
     	{
-    		return $this->redirect($this->generateUrl('_borrowed'));
+    		return $this->redirect($this->generateUrl('uek_borrowed'));
     	}
     
     	$em = $this->getDoctrine()->getManager();

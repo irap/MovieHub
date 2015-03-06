@@ -17,7 +17,7 @@ use Uek\StoreBundle\Entity\Order;
 class MovieController extends Controller
 {
     /**
-     * @Route("/movie/{id}", name="_movie")
+     * @Route("/movie/{id}", name="uek_movie")
      */
     public function movieAction($id)
     {
@@ -31,7 +31,7 @@ class MovieController extends Controller
     }
 
     /**
-     * @Route("/movie/{id}/watch", name="_watch_movie")
+     * @Route("/movie/{id}/watch", name="uek_watch_movie")
      */
     public function watchMovieAction($id)
     {
@@ -45,12 +45,12 @@ class MovieController extends Controller
     	}
     	else
     	{
-    		return $this->redirect($this->generateUrl('_homepage'));
+    		return $this->redirect($this->generateUrl('uek_homepage'));
     	}
     }
 
     /**
-     * @Route("/movie/{id}/add/review", name="_add_movie_review")
+     * @Route("/movie/{id}/add/review", name="uek_add_movie_review")
      */
     public function addMovieReviewAction($id)
     {
@@ -85,7 +85,7 @@ class MovieController extends Controller
 				$em->persist ( $review );
     			$em->flush();
     			
-    			return $this->redirect($this->generateUrl('_movie', ['id' => $movie->getId()]));
+    			return $this->redirect($this->generateUrl('uek_movie', ['id' => $movie->getId()]));
     		}
     		
     		return $this->render('UekMovieBundle:Movie:add.review.movie.html.twig',
@@ -93,12 +93,12 @@ class MovieController extends Controller
     	}
     	else
     	{
-    		return $this->redirect($this->generateUrl('_homepage'));
+    		return $this->redirect($this->generateUrl('uek_homepage'));
     	}
     }
 
     /**
-     * @Route("/movie/review/{id}", name="_show_movie_review")
+     * @Route("/review/{id}", name="uek_show_review")
      */
     public function showReviewAction($id)
     {
@@ -113,12 +113,12 @@ class MovieController extends Controller
     	}
     	else
     	{
-    		return $this->redirect($this->generateUrl('_homepage'));
+    		return $this->redirect($this->generateUrl('uek_homepage'));
     	}
     }
 
     /**
-     * @Route("/movie/{id}/all/reviews", name="_show_all_movie_review")
+     * @Route("/movie/{id}/all/reviews", name="uek_show_all_movie_reviews")
      */
     public function showAllReviewsAction($id)
     {

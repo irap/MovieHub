@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container-fluid">
-<h4 class="media-heading"><a href="/movie/{{ review.getMovie().getId() }}">{{ review.getMovie().getTitle() }}</a></h4>
+<h4 class="media-heading"><a href="{{ path('uek_movie', {'id': review.getMovie).getId()}) }}">{{ review.getMovie().getTitle() }}</a></h4>
 <div class="col-xs-2">
 <p><small>reviewed by {{ review.getUser().getUserName() }}, {{ review.getCreatedAt().format('Y-m-d h:i') }}</small></p>
 <p>{{ review.getReviewText() }}</p>

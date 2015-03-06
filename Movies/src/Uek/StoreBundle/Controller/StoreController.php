@@ -11,7 +11,7 @@ class StoreController extends Controller
 {
 
 	/**
-	 * @Route("/order/all")
+	 * @Route("/store/order/all", name="uek_store_show_all_orders")
 	 */
 	public function showAllOrdersAction()
 	{
@@ -27,7 +27,7 @@ class StoreController extends Controller
 	}
 	
 	/**
-	 * @Route("/order/movie/{id}", name="_order_movie")
+	 * @Route("/store/order/movie/{id}", name="uek_order_movie")
 	 */
 	public function orderMovieAction($id)
 	{
@@ -79,11 +79,11 @@ class StoreController extends Controller
 					$em->persist ( $order );
 					$em->flush();
 	
-					return $this->redirect($this->generateUrl('_confirmed_order', ['id' => $order->getId()]));
+					return $this->redirect($this->generateUrl('uek_confirmed_order', ['id' => $order->getId()]));
  				}
 	
 				// cancel otherwise
-				return $this->redirect($this->generateUrl('_movie', ['id' => $movie->getId()]));
+				return $this->redirect($this->generateUrl('uek_movie', ['id' => $movie->getId()]));
 			}
 	
 			return $this->render('UekStoreBundle:Store:borrow.movie.html.twig',
@@ -91,13 +91,13 @@ class StoreController extends Controller
 		}
 		else
 		{
-			return $this->redirect($this->generateUrl('_homepage'));
+			return $this->redirect($this->generateUrl('uek_homepage'));
 		}
 	}
 	
 	
 	/**
-	 * @Route("/order/{id}/confirmed", name="_confirmed_order")
+	 * @Route("/store/order/{id}/confirmed", name="_confirmed_order")
 	 */
 	public function confirmedOrderAction($id)
     {

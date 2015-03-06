@@ -19,7 +19,7 @@ use Uek\StoreBundle\Entity\OrderStatus;
 class DemoController extends Controller
 {
 	/**
-	 * @Route("/create", name="_create_demo")
+	 * @Route("/demo/create", name="uek_create_demo")
 	 */
 	public function createDemoAction()
 	{
@@ -98,11 +98,11 @@ class DemoController extends Controller
 			}
 		}
 		
-		return $this->redirect($this->generateUrl('_homepage'));
+		return $this->redirect($this->generateUrl('uek_homepage'));
 	}
 
 	/**
-	 * @Route("/reset", name="_reset_demo")
+	 * @Route("/demo/reset", name="uek_reset_demo")
 	 */
 	public function resetDemoAction()
 	{
@@ -126,11 +126,11 @@ class DemoController extends Controller
 		$em->flush();
 
 		$movies = $em->getRepository('UekMovieBundle:Movie')->findAll();
-		return $this->redirect($this->generateUrl('_homepage'));
+		return $this->redirect($this->generateUrl('uek_homepage'));
 	}
 
 	/**
-	 * @Route("/add/review/movie/{id}", name="_add_demo_review")
+	 * @Route("/demo/add/review/movie/{id}", name="uek_add_demo_review")
 	 */
 	public function addReviewAction($id)
 	{
@@ -152,14 +152,14 @@ class DemoController extends Controller
     		
      		$em->flush();
 
-     		return $this->redirect($this->generateUrl('_movie', array('id' => $movie->getId())));
+     		return $this->redirect($this->generateUrl('uek_movie', array('id' => $movie->getId())));
      	}
     	
-    	return $this->redirect($this->generateUrl('_homepage'));
+    	return $this->redirect($this->generateUrl('uek_homepage'));
 	}    	 
 
 	/**
-	 * @Route("/add/order/movie/{id}", name="_add_demo_order")
+	 * @Route("/demo/add/order/movie/{id}", name="uek_add_demo_order")
 	 */
 	public function addOrderAction($id)
 	{
@@ -185,14 +185,14 @@ class DemoController extends Controller
 	
 			$em->flush();
 	
-    		return $this->redirect($this->generateUrl('_movie', array('id' => $movie->getId())));
+    		return $this->redirect($this->generateUrl('uek_movie', array('id' => $movie->getId())));
 		}
 		 
-		return $this->redirect($this->generateUrl('_homepage'));
+		return $this->redirect($this->generateUrl('uek_homepage'));
 	}
 	
 	/**
-	 * @Route("/add/paid/order/movie/{id}", name="_add_demo_paid_order")
+	 * @Route("/demo/add/paid/order/movie/{id}", name="uek_add_demo_paid_order")
 	 */
 	public function addPaidOrderAction($id)
 	{
@@ -233,15 +233,15 @@ class DemoController extends Controller
 			}
 			$em->flush();
 	
-    		return $this->redirect($this->generateUrl('_movie', array('id' => $movie->getId())));
+    		return $this->redirect($this->generateUrl('uek_movie', array('id' => $movie->getId())));
 		}
 		 
-		return $this->redirect($this->generateUrl('_homepage'));
+		return $this->redirect($this->generateUrl('uek_homepage'));
 	}
 		
 	
 	/**
-	 * @Route("/create/order_statuses", name="_create_demo_order_statuses")
+	 * @Route("/demo/create/order_statuses", name="uek_create_demo_order_statuses")
 	 */
 	
 	public function createOrderStatusesAction()
@@ -265,6 +265,6 @@ class DemoController extends Controller
 			$em->flush();
 		}
 		
-		return $this->redirect($this->generateUrl('_homepage'));
+		return $this->redirect($this->generateUrl('uek_homepage'));
 	}
 }

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container-fluid">
 <div>
-<h4 class="media-heading">Review of movie <a href="/movie/{{ movie.getId() }}">{{ movie.getTitle() }}</a></h4>
+<h4 class="media-heading">Review of movie <a href="{{ path('uek_movie', {'id': movie.getId()}) }}">{{ movie.getTitle() }}</a></h4>
 </div>
 {% for review in movie.getReviews() %}
 	<div class="panel panel-default">

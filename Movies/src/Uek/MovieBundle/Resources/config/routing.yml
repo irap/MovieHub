@@ -1,5 +1,4 @@
 movie:
-    prefix: /
     resource: "@UekMovieBundle/Controller/MovieController.php"
     type:     annotation
  

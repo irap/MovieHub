@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid">
-<h4 class="media-heading">Add review of movie <a href="/movie/{{ movie.getId() }}">{{ movie.getTitle() }}</a></h4>
+<h4 class="media-heading">Add review of movie <a href="{{ path('uek_movie', {'id': movie.getId()}) }}">{{ movie.getTitle() }}</a></h4>
 {{ form_start(form) }}
 {{ form_errors(form) }}
 {{ form_widget(form.reviewText) }}

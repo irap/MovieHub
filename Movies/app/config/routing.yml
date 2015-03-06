@@ -1,6 +1,5 @@
 uek_store:
     resource: "@UekStoreBundle/Resources/config/routing.yml"
-    prefix:   /store
 
 uek_movie:
     resource: "@UekMovieBundle/Resources/config/routing.yml"
@@ -13,6 +12,6 @@ app:
     type:     annotation
 
 demo:
-    prefix: /demo
     resource: "@AppBundle/Controller/DemoController.php"
     type:     annotation
+
