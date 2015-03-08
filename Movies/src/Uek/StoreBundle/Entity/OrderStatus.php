@@ -15,10 +15,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class OrderStatus {
 	
+	/**
+	 * In progress order status id
+	 * @var integer IN_PROGRESS OrderStatus ID
+	 */
 	const IN_PROGRESS = 1;
+	
+	/**
+	 * Paid order status id.
+	 * @var unknown
+	 */
 	const PAID = 2;
 	
 	/**
+	 * OrderStatus entity id.
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 */
@@ -26,11 +37,14 @@ class OrderStatus {
 	protected $id;
 
 	/**
+	 * Status name.
+	 * 
 	 * @ORM\Column(type="string", nullable=false, unique=true)
 	 */
 	private $name;
 	
 	/**
+	 * Orders with this status.
 	 * @ORM\OneToMany(targetEntity="Uek\StoreBundle\Entity\Order", mappedBy="status")
 	 **/
 	private $orders;

@@ -12,8 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
-	// Something stragne, the fosUserBundle's User fyndByUsernae does not work.
-	// This is a workaround
+	/**
+	 * Find user entity by the username.
+	 * @param string $username
+	 * @return User|NULL
+	 */
 	public function findOneByUsername($username)
 	{		
 		$users = $this->getEntityManager()->getRepository('UekUserBundle:User')->findAll();

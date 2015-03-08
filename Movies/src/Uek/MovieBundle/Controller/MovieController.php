@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * MovieController class
+ */
 namespace Uek\MovieBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,13 +12,16 @@ use Uek\MovieBundle\Entity\Review;
 use Uek\StoreBundle\Entity\OrderStatus;
 use Uek\StoreBundle\Entity\Order;
 
-
-// /**
-//  * @Route("/movie")
-//  */
+/**
+ * Movie related action controller
+ * @author ipurdenko
+ */
 class MovieController extends Controller
 {
     /**
+     * Show a movie information page.
+     * @param id movie id
+     * 
      * @Route("/movie/{id}", name="uek_movie")
      */
     public function movieAction($id)
@@ -31,6 +36,10 @@ class MovieController extends Controller
     }
 
     /**
+     * Watch a movie action.
+     * 
+     * @param id movie id.
+     * 
      * @Route("/movie/{id}/watch", name="uek_watch_movie")
      */
     public function watchMovieAction($id)
@@ -50,6 +59,10 @@ class MovieController extends Controller
     }
 
     /**
+     * Add movie review action.
+     * 
+     * @param id movie id to wihc review is adding.
+     * 
      * @Route("/movie/{id}/add/review", name="uek_add_movie_review")
      */
     public function addMovieReviewAction($id)
@@ -98,6 +111,10 @@ class MovieController extends Controller
     }
 
     /**
+     * Show a review.
+     * 
+     * @param id review id to be shown.
+     * 
      * @Route("/review/{id}", name="uek_show_review")
      */
     public function showReviewAction($id)
@@ -118,6 +135,9 @@ class MovieController extends Controller
     }
 
     /**
+     * Show all movie's review.
+     * @param id movie id.
+     * 
      * @Route("/movie/{id}/all/reviews", name="uek_show_all_movie_reviews")
      */
     public function showAllReviewsAction($id)

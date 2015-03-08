@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * GenreChoiceType contains a custom genre choise form field.
+ */
 namespace AppBundle\Form\Fields;
 
 use Symfony\Component\Form\AbstractType;
@@ -6,11 +10,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceList;
 
+/**
+ * Custom genre choice form field.
+ * 
+ * @author ipurdenko
+ */
 class GenreChoiceType extends AbstractType
 {
 	protected $genres;
 	protected $selected_genre;
 	
+	/**
+	 * {@inheritdoc}
+	 */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
     	$genre_choices = array(0);
@@ -38,17 +50,28 @@ class GenreChoiceType extends AbstractType
     	
     }
 
+    /**
+     * Construct object.
+     * @param unknown $genres
+     * @param unknown $selected_genre
+     */
     public function __construct($genres, $selected_genre)
     {
     	$this->genres = $genres;
     	$this->selected_genre = $selected_genre;
     }
     
+	/**
+	 * {@inheritdoc}
+	 */
     public function getName()
     {
         return 'genre_choice';
     }
 
+    /**
+	 * {@inheritdoc}
+	 */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

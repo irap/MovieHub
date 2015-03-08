@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * DemoController class.
+ */
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,9 +15,11 @@ use Uek\StoreBundle\Entity\OrderStatus;
 
 use AppBundle\DemoMovieList;
 
-// /**
-//  * @Route("/demo")
-//  */
+/**
+ * DemoController is a service class purposed to handle helping actions such as adding
+ * some demo data to the data base for testing, debugging or demostration purposes.
+ * @author ipurdenko
+ */
 class DemoController extends Controller
 {
 	private $demo_movie_list = array(
@@ -148,6 +152,11 @@ class DemoController extends Controller
 					);
 	
 	/**
+	 * Create demo.
+	 * 
+	 * Put demo movies, genres, orders, etc. to the data base.
+	 * The previos data base are cleared and all is inserted again.
+	 * 
 	 * @Route("/demo/create", name="uek_create_demo")
 	 */
 	public function createDemoAction()
@@ -211,6 +220,8 @@ class DemoController extends Controller
 	}
 
 	/**
+	 * Remove movies, genres, orders etc. from data base.
+	 * 
 	 * @Route("/demo/reset", name="uek_reset_demo")
 	 */
 	public function resetDemoAction()
@@ -244,6 +255,10 @@ class DemoController extends Controller
 	}
 
 	/**
+	 * Helper action to add some dummy demo review to a movie.
+	 * 
+	 * @param id movie id.
+	 * 
 	 * @Route("/demo/add/review/movie/{id}", name="uek_add_demo_review")
 	 */
 	public function addReviewAction($id)
@@ -273,6 +288,10 @@ class DemoController extends Controller
 	}    	 
 
 	/**
+	 * Helper action to add dummy demo order to a movie.
+	 * 
+	 * @param id movie id
+	 * 
 	 * @Route("/demo/add/order/movie/{id}", name="uek_add_demo_order")
 	 */
 	public function addOrderAction($id)
@@ -306,6 +325,10 @@ class DemoController extends Controller
 	}
 	
 	/**
+	 * Helper action to add a demo paid order to a movie.
+	 * 
+	 * @param id movie id
+	 * 
 	 * @Route("/demo/add/paid/order/movie/{id}", name="uek_add_demo_paid_order")
 	 */
 	public function addPaidOrderAction($id)
@@ -355,6 +378,8 @@ class DemoController extends Controller
 		
 	
 	/**
+	 * Helper method to add OrderStatus'es do data base.
+	 * 
 	 * @Route("/demo/create/order_statuses", name="uek_create_demo_order_statuses")
 	 */
 	

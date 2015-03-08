@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * Review entity
+ * 
  * @ORM\Entity(repositoryClass="Uek\MovieBundle\Entity\ReviewRepository")
  * @ORM\Table(name="reviews")* 
  *
@@ -12,6 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Review {
 	/**
+	 * Entity id.
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -19,22 +23,29 @@ class Review {
 	protected $id;
 
 	/**
+	 * Date of creation.
+	 * 
 	 * @ORM\Column(type="date")
 	 */
 	private $createdAt;
 	
 	/**
+	 * User that created review.
 	 *
 	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="reviews")
 	 */
 	private $user;
 	
 	/**
+	 * Review text.
+	 * 
 	 * @ORM\Column(type="string")
 	 */
 	protected $reviewText;
 	
 	/**
+	 * 
+	 * Reviewed movie.
 	 * Inverse Side
 	 *
 	 * @ORM\ManyToOne(targetEntity="Movie", inversedBy="reviews")

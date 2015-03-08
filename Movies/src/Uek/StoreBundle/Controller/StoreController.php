@@ -7,10 +7,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Uek\StoreBundle\Entity\OrderStatus;
 use Uek\StoreBundle\Entity\Order;
 
+/**
+ * Store related actions controller
+ * @author ipurdenko
+ */
 class StoreController extends Controller
 {
 
 	/**
+	 * Show all orders page action
+	 * 
 	 * @Route("/store/order/all", name="uek_store_show_all_orders")
 	 */
 	public function showAllOrdersAction()
@@ -27,6 +33,9 @@ class StoreController extends Controller
 	}
 	
 	/**
+	 * Create an order form for the specified movie
+	 * @param id movie id
+	 * 
 	 * @Route("/store/order/movie/{id}", name="uek_order_movie")
 	 */
 	public function orderMovieAction($id)
@@ -97,7 +106,11 @@ class StoreController extends Controller
 	
 	
 	/**
-	 * @Route("/store/order/{id}/confirmed", name="_confirmed_order")
+	 * Confirmed order action
+	 * 
+	 * @param id of the confirmed order
+	 * 
+	 * @Route("/store/order/{id}/confirmed", name="uek_confirmed_order")
 	 */
 	public function confirmedOrderAction($id)
     {
@@ -105,7 +118,6 @@ class StoreController extends Controller
     		return $this->render('UekUserBundle:Security:please.login.html.twig');
     	}
     	
-//     	$user= $this->get('security.context')->getToken()->getUser();
     	$em = $this->getDoctrine()->getManager();
     	$order = $em->getRepository('UekStoreBundle:Order')->findOneById($id);
     	

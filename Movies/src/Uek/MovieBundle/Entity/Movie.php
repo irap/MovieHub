@@ -7,7 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Uek\MovieBundle\Entity\Genre;
 
 /**
- * Uek\MovieBundle\Entity\Movie
+ * Movie entity.
  *
  * @ORM\Entity(repositoryClass="Uek\MovieBundle\Entity\MovieRepository")
  * @ORM\Table(name="movies")
@@ -16,6 +16,7 @@ use Uek\MovieBundle\Entity\Genre;
  */
 class Movie {
 	/**
+	 * Entity id.
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,46 +24,64 @@ class Movie {
 	protected $id;
 	
 	/**
+	 * Movie title.
+	 * 
 	 * @ORM\Column(type="string", nullable=false)
 	 */
 	protected $title;
 
 	/**
+	 * Movie description.
+	 * 
 	 * @ORM\Column(type="string")
 	 */
 	protected $description;
 	
 	/**
+	 * Actors.
+	 * 
 	 * @ORM\Column(type="string")
 	 */
 	protected $actors;
 	
 	/**
+	 * Link to movie cover art
+	 * 
 	 * @ORM\Column(type="string")
 	 */
 	protected $coverArt;
 
 	/**
+	 * Link to movie
+	 * 
 	 * @ORM\Column(type="string")
 	 */
 	protected $videoUri;
 
 	/**
+	 * Genres of this movie.
+	 * 
 	 * @ORM\ManyToMany(targetEntity="Genre", mappedBy="movies")
 	 **/
 	protected $genres;
 	
 	/**
+	 * Movie price.
+	 * 
 	 * @ORM\Column(type="float", precision=4, scale=2, nullable=false, options={"unsigned":true, "default":0})
 	 */
 	protected $price;
 	
     /**
+     * Orders in wich this movie is included.
+     * 
      * @ORM\ManyToMany(targetEntity="Uek\StoreBundle\Entity\Order", inversedBy="movies")
      **/	
 	protected $orders;
 
 	/**
+	 * The movie's reviews.
+	 * 
 	 * @ORM\OneToMany(targetEntity="Review", mappedBy="movie")
 	 **/
 	private $reviews;
@@ -73,6 +92,10 @@ class Movie {
 		$this->genres = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
+	/**
+	 * Get movie's genres as a CSV list.
+	 * @return string with the list of genres
+	 */
 	public function getGenresNames()
 	{
 		$gnames = array();
@@ -83,6 +106,11 @@ class Movie {
 		return implode(", ", $gnames);
 	}
 	
+	/**
+	 * Checks if the movie has been ordered by a user.
+	 * @param User $user
+	 * @return boolean true if ordered, false otherwise.
+	 */
 	public function isOrderedByUser($user)
 	{
 		foreach($this->orders as $order)
@@ -96,6 +124,11 @@ class Movie {
 		return false;
 	}
 
+	/**
+	 * Checks if the movie has been paid by a user.
+	 * @param User $user
+	 * @return boolean true if paid, false otherwise.
+	 */
 	public function isPaidByUser($user)
 	{
 		$paid_orders = $this->getPaidOrders();
@@ -110,6 +143,10 @@ class Movie {
 		return false;
 	}
 	
+	/**
+	 * Get all orders that a user paid for.
+	 * @return array with the paid orders.
+	 */
 	public function getPaidOrders()
 	{
 		$paid_orders = array();
@@ -124,16 +161,28 @@ class Movie {
 		return $paid_orders;
 	}
 	
+	/**
+	 * Get number of revies of this movie.
+	 * @return integer Number of movie's reviews.
+	 */
 	public function getReviewNumber()
 	{
 		return $this->reviews->count();
 	}
 
+	/**
+	 * Get number of orders with this movies included to.
+	 * @return integer number of orders.
+	 */
 	public function getOrderNumber()
 	{
 		return $this->orders->count();
 	}
-
+	
+	/**
+	 * Get number of paid orders with this movies included to.
+	 * @return number
+	 */
 	public function getPaidOrderNumber()
 	{
 		return count($this->getPaidOrders());

@@ -15,6 +15,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Order {
 	/**
+	 * Entity id
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
  	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,26 +24,32 @@ class Order {
 	protected $id;
 
 	/**
+	 * Order creation date
 	 * @ORM\Column(type="date")
 	 */
 	private $createdAt;
 	
 	/**
+	 * User created this order.
 	 * @ORM\ManyToOne(targetEntity="Uek\UserBundle\Entity\User", inversedBy="orders")
 	 **/
 	private $user;
 
 	/**
+	 * 
+	 * Movies included into this order.
 	 * @ORM\ManyToMany(targetEntity="Uek\MovieBundle\Entity\Movie", mappedBy="orders")
 	 **/
 	private $movies;
 	
 	/**
+	 * Order status.
 	 * @ORM\ManyToOne(targetEntity="Uek\StoreBundle\Entity\OrderStatus", inversedBy="orders")
 	 **/
 	private $status;
 	
 	/**
+	 * Total sum of all movies included into this order.
 	 * @ORM\Column(type="float", precision=4, scale=2, nullable=false, options={"unsigned":true, "default":0})
 	 */
 	protected $totalSum;
@@ -50,7 +58,11 @@ class Order {
 		$this->movies = new \Doctrine\Common\Collections\ArrayCollection(); 
 		$totalSum = 0;
 	}
-	
+
+	/**
+	 * CHeck if the order is paid.
+	 * @return boolean true if paid, false otherwise.
+	 */
 	public function isPaid()
 	{
 		return $this->status->getId() == OrderStatus::PAID;

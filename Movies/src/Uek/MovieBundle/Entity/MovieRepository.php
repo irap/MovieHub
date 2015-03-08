@@ -14,6 +14,12 @@ use Uek\StoreBundle\Entity\OrderStatus;
  */
 class MovieRepository extends EntityRepository
 {
+	/**
+	 * Find most borrowed movies.
+	 * 
+	 * @param number $count max count of the returned results.
+	 * @return array of movies
+	 */
 	public function findMostBorrowed($count = 1)
 	{
 		$qb = $this->createQueryBuilder('m')
@@ -31,6 +37,12 @@ class MovieRepository extends EntityRepository
 		return $moives;
 	}
 
+	/**
+	 * Find most reviewed movies.
+	 * 
+	 * @param number $count max count of the returned results.
+	 * @return array of movies
+	 */
 	public function findMostReviewed($count = 1)
 	{
 		$qb = $this->createQueryBuilder('m')
@@ -45,11 +57,22 @@ class MovieRepository extends EntityRepository
 		return $moives;
 	}
 
+	/**
+	 * Find movies of the specified genre.
+	 * @param Genre genre 
+	 * @return array of movies
+	 */
 	public function findByGenre(Genre $genre)
 	{
 		return $genre->getMovies();
 	}
 
+	/**
+	 * Find movies borrowed by a user.
+	 * 
+	 * @param User user
+	 * @return array of movies
+	 */
 	public function findBorrowedByUser($user)
 	{
 		$qb = $this->createQueryBuilder('m')
@@ -67,6 +90,13 @@ class MovieRepository extends EntityRepository
 		return $moives;
 	}
 
+	/**
+	 * Find movies borrowed by a user and filtered by genre
+	 * 
+	 * @param User user
+	 * @param Genre genre
+	 * @return array of movies
+	 */
 	public function findBorrowedByUserFilteredByGenre($user, $genre)
 	{
 		$qb = $this->createQueryBuilder('m')
@@ -87,61 +117,4 @@ class MovieRepository extends EntityRepository
 		$moives = $qb->getQuery()->getResult();
 		return $moives;
 	}
-	
-	// 	public function findByGenre($genre)
-	// 	{
-	// 		$qb = $this->createQueryBuilder('m')
-	// 		->addSelect('COUNT(g.id) AS HIDDEN genreCount')
-	// 		->leftJoin('m.genres', 'g')
-	// 		->groupBy('m')
-	// 		->having('genreCount > 0')
-	// 		->where('g.id = &1')
-	// 		->setParameter($genre)
-	// 		->setMaxResults($count);
-	
-	// 		$moives = $qb->getQuery()->getResult();
-	// 		return $moives;
-	// 	}
-	
-	
-// 	public function findAllSortByTitle($order = 'ASC')
-// 	{
-// 		return $this->findBy(array(), array('title' => $order));
-// 	}
-	
-// 	public function findAllSortByWatchNumber($order = 'ASC')
-// 	{
-// 		return $this->findBy(array(), array('watchNumber' => $order));
-// 	}
-
-// 	public function findAllSortByBorrowNumber($order = 'ASC')
-// 	{
-// 		return $this->findBy(array(), array('borrowNumber' => $order));
-// 	}
-	
-// 	public function findAllByAndSort(Genre $genre = NULL, $sort_helper)
-// 	{
-// 		$movies = array();
-// 		if ($genre == null)
-// 		{
-// 			switch ($sort_helper->getCurrentChoice())
-// 			{
-// 				case SortHelper::SortByTitle:
-// 					$movies = $this->findAllSortByTitle();
-// 					break;
-// 				case SortHelper::SortByMostWatchNumber:
-// 					$movies = $this->findAllSortByWatchNumber('DESC');
-// 					break;
-// 				case SortHelper::SortByMostBorrowNumber:
-// 					$movies = $this->findAllSortByBorrowNumber('DESC');
-// 					break;
-// 			}
-// 		}
-// 		else
-// 		{
-// 			$movies = $genre->getMovies();
-// 		}
-		
-// 		return $movies;
-// 	}
 }

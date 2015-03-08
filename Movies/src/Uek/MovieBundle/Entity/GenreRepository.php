@@ -13,6 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class GenreRepository extends EntityRepository
 {
 	
+	/**
+	 * Find on genre by its name.
+	 * 
+	 * @param string $gname name fo genre
+	 * @return Genre objec or NULL
+	 */
 	public function findOneByName($gname)
 	{
 		$qb = $this->createQueryBuilder('g')

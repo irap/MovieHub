@@ -4,6 +4,8 @@ namespace Uek\MovieBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Genre entity
+ * 
  * @ORM\Entity(repositoryClass="Uek\MovieBundle\Entity\GenreRepository")
  * @ORM\Table(name="genres")* 
  *
@@ -11,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Genre {
 	/**
+	 * Entity id
+	 * 
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,16 +22,22 @@ class Genre {
 	protected $id;
 
 	/**
+	 * Genre name
+	 * 
 	 * @ORM\Column(type="string", nullable=false, unique=true)
 	 */
 	protected $name;
 	
 	/**
+	 * Movies of this genre
 	 *
 	 * @ORM\ManyToMany(targetEntity="Movie", inversedBy="genres")
 	 */
 	private $movies;
 
+	/**
+	 * Constructor
+	 */
     public  function __construct() {
     	$this->movies = new \Doctrine\Common\Collections\ArrayCollection();
     	 
